@@ -25,7 +25,7 @@ const Hero = () => {
 
           <div className="hero-actions">
             <a
-              href="https://drive.google.com/file/d/1cFB76GK1uJ59CU9lutTOGv4aTWwhWrR_/view?usp=sharing"
+              href={import.meta.env.VITE_CV_LINK}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
