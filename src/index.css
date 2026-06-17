@@ -1,17 +1,18 @@
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #0f0f0f;
-  --text-primary: #f5f5f5;
-  --text-secondary: #a3a3a3;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --accent-glow: rgba(59, 130, 246, 0.3);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-  --nav-height: 70px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --bg-primary: #09090b; /* zinc-950 */
+  --bg-secondary: #18181b; /* zinc-900 */
+  --text-primary: #f8fafc; /* slate-50 */
+  --text-secondary: #94a3b8; /* slate-400 */
+  --accent: #2563eb; /* blue-600 */
+  --accent-hover: #3b82f6; /* blue-500 */
+  --accent-glow: rgba(37, 99, 235, 0.1); /* toned down */
+  --border-subtle: #27272a; /* zinc-800 */
+  --glass-bg: rgba(24, 24, 27, 0.6); /* transparent zinc-900 */
+  --glass-border: rgba(39, 39, 42, 0.8); /* zinc-800 */
+  --font-main: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --nav-height: 72px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
 * {

@@ -1,22 +1,38 @@
+import { SiLinkedin, SiGithub } from 'react-icons/si';
+import { MdEmail, MdPhone } from 'react-icons/md';
+
 const Footer = () => {
   return (
     <footer className="footer" id="contact">
       <div className="container">
-        <div className="footer-content">
-          <div className="footer-brand">
-            <h3>Christian Gunawan</h3>
-            <p>Product Manager & Digital Strategist.</p>
-          </div>
-
-          <div className="footer-links">
-            <div className="col">
-              <h4>Social</h4>
-              <a href="https://www.linkedin.com/in/christian404/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <div className="footer-grid" style={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+          <div className="footer-info" style={{ alignItems: 'center' }}>
+            <div className="footer-brand animate-fade-in">
+              <h3>Christian Gunawan</h3>
+              <p className="footer-subtitle">Product Manager & Digital Strategist</p>
+              <p className="footer-desc" style={{ margin: '0 auto', maxWidth: '600px' }}>
+                Let's build something exceptional together. Feel free to reach out for consultations, collaborations, or structural inquiries.
+              </p>
             </div>
-            <div className="col">
-              <h4>Connect</h4>
-              <a href="mailto:cg404cgunawan@gmail.com">cg404cgunawan@gmail.com</a>
-              <a href="tel:+6285157449632">+62 85157449632</a>
+
+            <div className="footer-contact-details" style={{ justifyContent: 'center', marginTop: '30px' }}>
+              <a href="mailto:cg404cgunawan@gmail.com" className="contact-detail-link">
+                <span className="contact-icon-wrapper"><MdEmail /></span>
+                <span>cg404cgunawan@gmail.com</span>
+              </a>
+              <a href="tel:+6285157449632" className="contact-detail-link">
+                <span className="contact-icon-wrapper"><MdPhone /></span>
+                <span>+62 85157449632</span>
+              </a>
+            </div>
+
+            <div className="footer-social-links" style={{ justifyContent: 'center', marginTop: '30px' }}>
+              <a href="https://www.linkedin.com/in/christian404/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <SiLinkedin size={24} />
+              </a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <SiGithub size={24} />
+              </a>
             </div>
           </div>
         </div>
@@ -28,53 +44,117 @@ const Footer = () => {
 
       <style>{`
         .footer {
-          background: rgba(15, 15, 15, 0.8);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          padding: 80px 0 40px;
-          border-top: 1px solid var(--glass-border);
+          background: var(--glass-bg);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          padding: 8rem 0 2rem;
+          border-top: 1px solid var(--border-subtle);
+          position: relative;
         }
 
-        .footer-content {
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 40px;
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 60px;
           margin-bottom: 60px;
         }
 
-        .footer-brand {
-          max-width: 300px;
-        }
-        
-        .footer-brand h3 {
-          margin-bottom: 1rem;
-        }
-
-        .footer-links {
-          display: flex;
-          gap: 60px;
+        @media (min-width: 992px) {
+          .footer-grid {
+            grid-template-columns: 1fr;
+            align-items: center;
+          }
         }
 
-        .col {
+        .footer-info {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 30px;
         }
 
-        .col h4 {
-          font-size: 0.9rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
+        .footer-brand h3 {
+          font-size: 2.2rem;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          margin-bottom: 8px;
+          color: var(--text-primary);
+        }
+
+        .footer-subtitle {
+          color: var(--text-primary);
+          font-weight: 500;
+          font-size: 1.1rem;
+          margin-bottom: 16px;
+        }
+
+        .footer-desc {
+          font-size: 1.05rem;
+          line-height: 1.7;
           color: var(--text-secondary);
-          margin-bottom: 0.5rem;
+          max-width: 480px;
+        }
+
+        .footer-contact-details {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .contact-detail-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          color: var(--text-secondary);
+          font-size: 1rem;
+          transition: color 0.2s ease;
+          width: fit-content;
+        }
+
+        .contact-detail-link:hover {
+          color: var(--text-primary);
+        }
+
+        .contact-icon-wrapper {
+          width: 36px;
+          height: 36px;
+          border-radius: var(--radius-sm);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-primary);
+        }
+
+        .footer-social-links {
+          display: flex;
+          gap: 16px;
+        }
+
+        .footer-social-links a {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-sm);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-secondary);
+          transition: all 0.2s ease;
+        }
+
+        .footer-social-links a:hover {
+          background: var(--text-primary);
+          color: var(--bg-primary);
+          border-color: var(--text-primary);
         }
 
         .footer-bottom {
           padding-top: 40px;
-          border-top: 1px solid var(--glass-border);
+          border-top: 1px solid var(--border-subtle);
           text-align: center;
-          color: var(--text-secondary);
+          color: var(--text-tertiary);
           font-size: 0.9rem;
         }
       `}</style>

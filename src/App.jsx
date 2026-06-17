@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import CardNav from './components/CardNav';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -8,14 +9,16 @@ import PersonalProjects from './components/PersonalProjects';
 import Organization from './components/Organization';
 import Certificates from './components/Certificates';
 import Footer from './components/Footer';
-import ColorBends from './components/ColorBends';
 import RevealScroll from './components/RevealScroll';
-import GradualBlur from './components/GradualBlur';
 import LogoLoop from './components/LogoLoop';
+import ProjectModal from './components/ProjectModal';
+import BackToTop from './components/BackToTop';
+import ColorBends from './components/ColorBends';
 import { SiGithub, SiMysql, SiSwift, SiNotion, SiMiro, SiConfluence, SiFigma, SiGoogle, SiOpenai } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
 
 function App() {
+  const [selectedProject, setSelectedProject] = useState(null);
   const navItems = [
     {
       label: "Portfolio",
@@ -96,13 +99,19 @@ function App() {
 
       <RevealScroll><About /></RevealScroll>
       <RevealScroll><Experience /></RevealScroll>
-      <RevealScroll><PortfolioGrid /></RevealScroll>
+      <RevealScroll><PortfolioGrid onProjectClick={setSelectedProject} /></RevealScroll>
       <RevealScroll><PersonalProjects /></RevealScroll>
       <RevealScroll><Organization /></RevealScroll>
       <RevealScroll><Education /></RevealScroll>
       <RevealScroll><Certificates /></RevealScroll>
       <Footer />
-      <GradualBlur preset="page-footer" />
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
+      <BackToTop />
     </div>
   );
 }

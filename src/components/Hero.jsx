@@ -1,225 +1,234 @@
-import GlassSurface from './GlassSurface';
-import ModelViewer from './ModelViewer';
+import React, { useState, useEffect } from 'react';
+import profileImg from '../assets/profile.jpg';
+
+const ROLES = [
+  "iOS Developer",
+  "Product Manager",
+  "Solution Architect",
+  "Presales",
+  "IT Business Consultant",
+  "Digital Product",
+  "Digital Business Transformation"
+];
 
 const Hero = () => {
+  const [currentRole, setCurrentRole] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentRole((prev) => (prev + 1) % ROLES.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="hero">
-      <div className="container hero-content">
-        <div className="hero-text animate-fade-in">
-          <div className="hero-roles">
-            <span className="hero-label">iOS Developer</span>
-            <span className="hero-label">Product Manager</span>
-            <span className="hero-label">Solution Architect</span>
-            <span className="hero-label">Presales</span>
-            <span className="hero-label">IT Business Consultant</span>
-            <span className="hero-label">Digital Product</span>
-            <span className="hero-label">Digital Business Transformation</span>
-          </div>
-          <h1>
-            Hi, I'm <span className="text-gradient">Christian Gunawan</span>.
+      <div className="container hero-grid">
+        <div className="hero-text-column animate-fade-in">
+          <h1 className="hero-headline">
+            Christian Gunawan. <br/>
+            <span className="hero-subheadline">
+              {ROLES[currentRole]}
+            </span>
           </h1>
+
           <p className="hero-desc">
-            Transforming complex problems into intuitive digital solutions.
-            Focused on product strategy, user experience, and driving growth.
+            Transforming complex problems into intuitive digital solutions. Focused on product strategy, user experience, and driving growth.
           </p>
 
           <div className="hero-actions">
             <a
-              href={import.meta.env.VITE_CV_LINK}
+              href={import.meta.env.VITE_CV_LINK || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ textDecoration: 'none' }}
+              className="btn-primary"
             >
-              <GlassSurface
-                width="160px"
-                height="50px"
-                borderRadius={30}
-                opacity={1}
-                backgroundOpacity={0.1}
-                blur={15}
-                borderWidth={0.1}
-                displace={25}
-                distortionScale={15}
-                mixBlendMode="normal"
-                className="btn-glass"
-              >
-                <span style={{ fontWeight: 600, color: 'white' }}>Download CV</span>
-              </GlassSurface>
+              Download CV
             </a>
 
-            <a href="#contact" style={{ textDecoration: 'none' }}>
-              <GlassSurface
-                width="160px"
-                height="50px"
-                borderRadius={30}
-                opacity={1}
-                backgroundOpacity={0.05}
-                blur={10}
-                borderWidth={0.1}
-                displace={20}
-                distortionScale={10}
-                mixBlendMode="normal"
-                className="btn-glass-outline"
-              >
-                <span style={{ fontWeight: 600, color: '#e5e5e5' }}>Contact Me</span>
-              </GlassSurface>
+            <a href="#contact" className="btn-secondary">
+              Contact
             </a>
+          </div>
+        </div>
+
+        <div className="hero-image-column animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="hero-image-wrapper">
+            <img src={profileImg} alt="Christian Gunawan" className="hero-image" />
           </div>
         </div>
       </div>
 
-      <div className="hero-model animate-fade-in delay-200">
-        <ModelViewer
-          url="/models/carno.glb"
-          width="100%"
-          height="100%"
-          modelXOffset={0}
-          modelYOffset={-1.5} /* Move down further (turunin lagi) */
-          modelRotation={[-Math.PI / 2, 0, 0]} /* Rotate mesh internally so Z-up becomes Y-up */
-          defaultRotationX={0} /* Reset container tilt so autoRotate spins around vertical Y */
-          defaultRotationY={30}
-          defaultZoom={12} /* Target ~30% screen size */
-          minZoomDistance={0.5}
-          maxZoomDistance={20}
-          enableManualZoom={false} /* Keep scroll safety */
-          ambientIntensity={0.6} /* 60% brightness */
-          keyLightIntensity={1.2} /* 60% brightness */
-          fillLightIntensity={0.6} /* 60% brightness */
-          rimLightIntensity={1.2} /* 60% brightness */
-          autoRotate={true}
-          autoRotateSpeed={2}
-          environmentPreset="city"
-          showScreenshotButton={false}
-          fadeIn={true}
-          autoFrame={false} /* Disable auto-fit to use manual zoom */
-          style={{ background: 'transparent' }}
-        />
-      </div>
-
       <style>{`
         .hero {
-          min-height: 90vh;
+          min-height: 100dvh;
           display: flex;
           align-items: center;
-          justify-content: center;
           position: relative;
           padding-top: var(--nav-height);
-          overflow: hidden;
-          isolation: isolate; /* Create new stacking context */
         }
 
-        .hero-content {
+        .hero-grid {
           width: 100%;
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: 1.5rem;
+        }
+
+        .hero-text-column {
+          grid-column: 1 / -1;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          gap: 2rem;
-          position: relative;
-          z-index: 2; /* Content sits above model */
-          pointer-events: none; /* Let clicks pass through empty space */
+          align-items: flex-start;
+          text-align: left;
         }
 
-        /* Re-enable clicks for interactive elements */
-        .hero-text, .hero-actions {
-            pointer-events: auto;
+        @media (min-width: 768px) {
+          .hero-text-column {
+            grid-column: 1 / 10;
+          }
         }
-
-        .hero-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            max-width: 800px;
-        }
-
-        .hero-model {
-            position: absolute;
-            inset: 0; /* Cover entire hero section */
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Behind content (content is z-index 2) */
-            opacity: 0.8; 
-            pointer-events: auto; /* Allow interaction with model */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .delay-200 { animation-delay: 0.2s; }
 
         @media (min-width: 1024px) {
-            .hero-content {
-                justify-content: center;
-                text-align: center;
-            }
-            
-            .hero-text {
-                align-items: center;
-                text-align: center;
-                max-width: 900px;
-            }
-            
-            .hero-roles {
-                justify-content: center;
-            }
-            
-            .hero-actions {
-                justify-content: center;
-            }
+          .hero-text-column {
+            grid-column: 1 / 8;
+          }
         }
 
-        .hero-roles {
+        .hero-image-column {
+          grid-column: 1 / -1;
           display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
+          align-items: center;
           justify-content: center;
-          margin-bottom: 2rem;
+          margin-top: 2rem;
         }
 
-        .hero-label {
+        @media (min-width: 768px) {
+          .hero-image-column {
+            grid-column: 8 / 13;
+            margin-top: 0;
+            justify-content: flex-end;
+          }
+        }
+
+        .hero-image-wrapper {
+          width: clamp(200px, 30vw, 320px);
+          aspect-ratio: 1;
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          border: 1px solid var(--border-subtle);
+          background-color: var(--glass-bg);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          filter: grayscale(10%);
+          transition: transform 0.5s ease;
+        }
+
+        .hero-image-wrapper:hover .hero-image {
+          transform: scale(1.05);
+          filter: grayscale(0%);
+        }
+
+        .hero-headline {
+          font-size: clamp(3rem, 6vw, 5.5rem);
+          line-height: 1;
+          margin-bottom: 1.5rem;
+          letter-spacing: -0.04em;
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+        
+        .hero-subheadline {
+          color: var(--text-secondary);
+          font-weight: 400;
           display: inline-block;
-          padding: 8px 18px;
-          border-radius: 50px;
-          background: rgba(10, 10, 10, 0.6);
-          border: 1px solid rgba(59, 130, 246, 0.3);
-          color: #3b82f6;
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          animation: roleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        h1 {
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
+        @keyframes roleFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .hero-desc {
-            font-size: 1.35rem;
-            margin: 0 0 3rem;
-            max-width: 640px;
-            line-height: 1.6;
-            color: var(--text-secondary);
+          font-size: 1.125rem;
+          margin: 0 0 2.5rem;
+          max-width: 45ch;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          font-weight: 400;
         }
 
         .hero-actions {
           display: flex;
           gap: 1rem;
+          flex-wrap: wrap;
+        }
+
+        .btn-primary {
+          display: inline-flex;
+          align-items: center;
           justify-content: center;
+          height: 48px;
+          padding: 0 24px;
+          border-radius: var(--radius-md);
+          background-color: var(--text-primary);
+          color: var(--bg-primary);
+          font-size: 0.95rem;
+          font-weight: 500;
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
         }
 
-        .btn-glass, .btn-glass-outline {
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            cursor: pointer;
+        .btn-primary:hover {
+          opacity: 0.9;
+        }
+        
+        .btn-primary:active {
+          transform: scale(0.98);
         }
 
-        .btn-glass:hover, .btn-glass-outline:hover {
-            transform: translateY(-2px);
-            opacity: 0.8 !important; /* Override inline prop slightly */
+        .btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 48px;
+          padding: 0 24px;
+          border-radius: var(--radius-md);
+          background-color: transparent;
+          border: 1px solid var(--border-subtle);
+          color: var(--text-primary);
+          font-size: 0.95rem;
+          font-weight: 500;
+          transition: background-color 0.2s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-secondary:hover {
+          background-color: var(--bg-secondary);
+        }
+
+        .btn-secondary:active {
+          transform: scale(0.98);
+        }
+
+        .animate-fade-in {
+          opacity: 0;
+          animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </section>

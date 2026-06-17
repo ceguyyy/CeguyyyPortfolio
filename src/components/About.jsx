@@ -1,104 +1,153 @@
-import GlassSurface from './GlassSurface';
 import profileImg from '../assets/profile.jpg';
 
 const About = () => {
   return (
     <section id="about" className="about-section">
-      <div className="container">
-        <h2 className="section-title">About Me<span className="text-accent">.</span></h2>
-
-        <GlassSurface
-          width="100%"
-          height="auto"
-          borderRadius={24}
-          opacity={1}
-          backgroundOpacity={0.05}
-          blur={10}
-          borderWidth={0.1}
-          mixBlendMode="normal"
-          className="about-card"
-        >
-          <div className="about-content-wrapper">
-            <div className="about-image-container">
-              <img src={profileImg} alt="Christian Gunawan" className="about-image" />
-            </div>
-            <div className="about-content">
-              <p>
-                I am a dedicated undergraduate student pursuing a major in <strong>Computer Science</strong> with a minor in <strong>Software Engineering</strong> and a <strong>Mobile Developer</strong> at <strong>Apple Developer Academy @ BINUS</strong>, blending my passion for technology with a strong academic foundation.
-              </p>
-              <p>
-                My coursework has equipped me with a comprehensive understanding of computer science concepts and the practical skills needed for software development. With a desire to create innovative solutions and contribute to the ever-evolving tech landscape, I am enthusiastic about exploring opportunities in the industry and collaborating with like-minded professionals.
-              </p>
+      <div className="container about-grid">
+        
+        <div className="about-left">
+          <div className="sticky-content">
+            <h2 className="section-title">About Me.</h2>
+            <div className="about-skills">
+              <span className="skill-tag">Solution Architecture</span>
+              <span className="skill-tag">Product Strategy</span>
+              <span className="skill-tag">Systems Design</span>
+              <span className="skill-tag">API Integration</span>
+              <span className="skill-tag">Mobile Development</span>
             </div>
           </div>
-        </GlassSurface>
+        </div>
+
+        <div className="about-right">
+          <p className="about-lead">
+            Computer Science graduate with experience in Solution Architecture and Digital Product Development, specializing in translating complex business requirements into scalable and reliable technical solutions.
+          </p>
+          <div className="about-body">
+            <p>
+              Currently working as a Solutions Architect at <strong>Cekat.AI</strong>, with previous experience as an Enterprise Solutions Architect at <strong>Mekari</strong>, where I contributed to designing solution architectures, preparing technical documentation, supporting API integrations, and ensuring successful delivery of digital platforms aligned with business objectives.
+            </p>
+            <p>
+              Previously, I gained product and digital transformation experience at <strong>Siloam International Hospitals Group</strong>, supporting digital initiatives and product development processes. My early technical foundation was built through the <strong>Apple Developer Academy Indonesia</strong>, where I focused on iOS development and user-centric application design.
+            </p>
+          </div>
+        </div>
+
       </div>
 
       <style>{`
         .about-section {
-          padding: 6rem 0;
+          padding: 8rem 0;
           position: relative;
+          border-top: 1px solid var(--border-subtle);
+        }
+
+        .about-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 4rem;
+        }
+
+        @media (min-width: 1024px) {
+          .about-grid {
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5rem;
+          }
+        }
+
+        .about-left {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .sticky-content {
+          position: sticky;
+          top: 120px;
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+          .about-left {
+            grid-column: 1 / 5;
+          }
         }
 
         .section-title {
-          font-size: 2.5rem;
-          margin-bottom: 3rem;
-          text-align: center;
+          font-size: clamp(2.5rem, 5vw, 3.5rem);
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          line-height: 1.1;
+          color: var(--text-primary);
+          margin: 0;
         }
 
-        .about-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2.5rem;
-            align-items: center;
+        .about-skills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.75rem;
         }
 
-        .about-image-container {
-            width: 200px;
-            height: 200px;
-            flex-shrink: 0;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        .skill-tag {
+          padding: 0.5rem 1rem;
+          background-color: var(--glass-bg);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid var(--border-subtle);
+          border-radius: 100px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: var(--text-secondary);
+          transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+          color: var(--text-primary);
+          border-color: var(--text-secondary);
+          background-color: rgba(255, 255, 255, 0.05);
         }
 
         .about-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+          display: none;
         }
 
-        .about-content {
+        .about-right {
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+          .about-right {
+            grid-column: 6 / 13;
+          }
+        }
+
+        .about-lead {
+          font-size: 1.35rem;
+          line-height: 1.7;
+          color: var(--text-primary);
+          font-weight: 400;
+          margin: 0;
+          max-width: 35ch;
+        }
+
+        .about-body {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .about-body p {
+          font-size: 1.1rem;
           line-height: 1.8;
           color: var(--text-secondary);
-          font-size: 1.1rem;
-          text-align: center;
+          margin: 0;
+          max-width: 60ch;
         }
 
-        @media (min-width: 768px) {
-            .about-content-wrapper {
-                flex-direction: row;
-                text-align: left;
-                align-items: flex-start;
-            }
-
-            .about-content {
-                text-align: left;
-            }
-        }
-
-        .about-content p {
-          margin-bottom: 1.5rem;
-        }
-
-        .about-content p:last-child {
-          margin-bottom: 0;
-        }
-
-        .about-content strong {
-          color: white;
+        strong {
+          color: var(--text-primary);
           font-weight: 600;
         }
       `}</style>

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { GoArrowUpRight } from 'react-icons/go';
 import './CardNav.css';
@@ -13,9 +13,38 @@ const CardNav = ({
 }) => {
     const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [activeHash, setActiveHash] = useState('');
     const navRef = useRef(null);
     const cardsRef = useRef([]);
     const tlRef = useRef(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ['about', 'work', 'personal-projects', 'experience', 'education', 'organization', 'certificates', 'contact'];
+            const scrollPos = window.scrollY + window.innerHeight / 3;
+
+            let currentSection = '';
+            for (const sectionId of sections) {
+                const el = document.getElementById(sectionId);
+                if (el) {
+                    const top = el.offsetTop;
+                    const height = el.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        currentSection = `#${sectionId}`;
+                        break;
+                    }
+                }
+            }
+            if (currentSection) {
+                setActiveHash(currentSection);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Call it immediately
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const calculateHeight = () => {
         const navEl = navRef.current;
@@ -166,12 +195,21 @@ const CardNav = ({
                         >
                             <div className="nav-card-label">{item.label}</div>
                             <div className="nav-card-links">
-                                {item.links?.map((lnk, i) => (
-                                    <a key={`${lnk.label}-${i}`} className="nav-card-link" href={lnk.href} aria-label={lnk.ariaLabel} onClick={toggleMenu}>
-                                        <GoArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
-                                        {lnk.label}
-                                    </a>
-                                ))}
+                                {item.links?.map((lnk, i) => {
+                                    const isActive = lnk.href === activeHash;
+                                    return (
+                                        <a
+                                            key={`${lnk.label}-${i}`}
+                                            className={`nav-card-link ${isActive ? 'active' : ''}`}
+                                            href={lnk.href}
+                                            aria-label={lnk.ariaLabel}
+                                            onClick={toggleMenu}
+                                        >
+                                            <GoArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
+                                            {lnk.label}
+                                        </a>
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}

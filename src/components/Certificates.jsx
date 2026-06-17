@@ -1,5 +1,4 @@
 import { GoVerified } from 'react-icons/go';
-import GlassSurface from './GlassSurface';
 
 const Certificates = () => {
     const certs = [
@@ -28,28 +27,18 @@ const Certificates = () => {
     return (
         <section id="certificates" className="certificates-section">
             <div className="container">
-                <h2 className="section-title">Certifications<span className="text-accent">.</span></h2>
+                <h2 className="section-title">Certifications.</h2>
 
                 <div className="certs-grid">
                     {certs.map((cert, index) => (
                         <a href={cert.link} target="_blank" rel="noopener noreferrer" key={index} className="cert-link">
-                            <GlassSurface
-                                width="100%"
-                                height="100%"
-                                borderRadius={16}
-                                opacity={1}
-                                backgroundOpacity={0.03}
-                                blur={10}
-                                borderWidth={0.05}
-                                mixBlendMode="normal"
-                                className="cert-card"
-                            >
+                            <div className="cert-card">
                                 <div className="cert-content">
                                     <GoVerified className="cert-icon" />
-                                    <h3>{cert.title}</h3>
-                                    <p>{cert.issuer}</p>
+                                    <h3 className="cert-title">{cert.title}</h3>
+                                    <p className="cert-issuer">{cert.issuer}</p>
                                 </div>
-                            </GlassSurface>
+                            </div>
                         </a>
                     ))}
                 </div>
@@ -57,7 +46,16 @@ const Certificates = () => {
 
             <style>{`
         .certificates-section {
-          padding: 6rem 0;
+          padding: 8rem 0;
+          border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: var(--text-primary);
+          margin-bottom: 4rem;
         }
 
         .certs-grid {
@@ -77,9 +75,19 @@ const Certificates = () => {
         .cert-link:hover {
             transform: translateY(-4px);
         }
+        
+        .cert-link:hover .cert-card {
+            border-color: var(--text-secondary);
+        }
 
         .cert-card {
             height: 100%;
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            transition: border-color 0.2s ease;
         }
 
         .cert-content {
@@ -91,21 +99,22 @@ const Certificates = () => {
         }
 
         .cert-icon {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
         }
 
-        .cert-content h3 {
+        .cert-title {
           font-size: 1.1rem;
+          font-weight: 500;
           margin-bottom: 0.5rem;
-          color: white;
+          color: var(--text-primary);
           line-height: 1.4;
         }
 
-        .cert-content p {
+        .cert-issuer {
           color: var(--text-secondary);
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           margin-bottom: 0;
           margin-top: auto;
         }

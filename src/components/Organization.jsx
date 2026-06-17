@@ -33,23 +33,11 @@ const Organization = () => {
   return (
     <section id="organization" className="organization-section">
       <div className="container">
-        <h2 className="section-title">Organization<span className="text-accent">.</span></h2>
+        <h2 className="section-title">Organizations.</h2>
 
-        <div className="org-grid">
+        <div className="org-list">
           {organizations.map((org, index) => (
-            <GlassSurface
-              key={index}
-              width="100%"
-              height="auto"
-              borderRadius={16}
-              opacity={1}
-              backgroundOpacity={0.03}
-              blur={10}
-              borderWidth={0.05}
-              mixBlendMode="normal"
-              className="org-card"
-            >
-              <div className="org-card-inner">
+            <div key={index} className="org-item">
                 <div className="org-visual">
                   {org.image ? (
                     <img src={org.image} alt={org.name} className="org-logo" />
@@ -60,41 +48,59 @@ const Organization = () => {
                   )}
                 </div>
                 <div className="org-content">
-                  <h3>{org.name}</h3>
+                  <h3 className="org-name">{org.name}</h3>
                   <div className="org-meta">
                     <span className="org-role">{org.role}</span>
                     <span className="org-period">{org.period}</span>
                   </div>
                 </div>
-              </div>
-            </GlassSurface>
+            </div>
           ))}
         </div>
       </div>
 
       <style>{`
         .organization-section {
-          padding: 6rem 0;
+          padding: 8rem 0;
+          border-top: 1px solid var(--border-subtle);
         }
 
-        .org-grid {
-          display: grid;
-          gap: 1.5rem;
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: var(--text-primary);
+          margin-bottom: 4rem;
+        }
+
+        .org-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
           max-width: 800px;
-          margin: 0 auto;
         }
 
-        .org-card-inner {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 1.5rem;
+        .org-item {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          padding: 1.5rem;
+          background-color: var(--glass-bg);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          transition: border-color 0.2s ease;
+        }
+
+        .org-item:hover {
+          border-color: var(--text-secondary);
         }
 
         .org-visual {
             flex-shrink: 0;
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -104,48 +110,48 @@ const Organization = () => {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 8px; /* Slight rounding for logos */
+            border-radius: var(--radius-sm);
         }
 
         .org-pill {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(0, 255, 209, 0.1));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: white;
-            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 1rem;
             letter-spacing: 0.05em;
         }
 
         .org-content {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
         }
 
-        .org-content h3 {
-          font-size: 1.25rem;
-          margin-bottom: 0.5rem;
-          color: white;
+        .org-name {
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: var(--text-primary);
+          margin: 0;
         }
 
         .org-meta {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          flex-wrap: wrap;
-          gap: 0.5rem;
+          gap: 1rem;
         }
 
         .org-role {
-          color: var(--accent);
-          font-weight: 600;
-          font-size: 0.95rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
+          color: var(--text-primary);
+          font-weight: 500;
+          font-size: 0.9rem;
         }
 
         .org-period {
@@ -154,15 +160,17 @@ const Organization = () => {
         }
 
         @media (max-width: 640px) {
-            .org-card-inner {
+            .org-item {
                 flex-direction: column;
                 align-items: flex-start;
-                text-align: left;
+                gap: 1rem;
+                padding: 1.25rem;
             }
             
             .org-meta {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 0.25rem;
             }
         }
       `}</style>

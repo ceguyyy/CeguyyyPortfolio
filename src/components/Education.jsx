@@ -1,19 +1,17 @@
-import GlassSurface from './GlassSurface';
-
 const Education = () => {
     const education = [
         {
-            type: 'education',
+            type: 'Undergraduate',
             role: 'Computer Science',
             company: 'Bina Nusantara University',
-            period: 'Undergraduate',
+            period: '2021 - 2025',
             description: 'Major in Computer Science, Minor in Software Engineering. Building a strong foundation in algorithms, data structures, and software architecture.'
         },
         {
-            type: 'education',
+            type: 'Graduated',
             role: 'High School',
             company: 'SMA Tarakanita',
-            period: 'Graduated',
+            period: '2018 - 2021',
             description: 'Completed secondary education with a focus on sciences.'
         }
     ];
@@ -21,97 +19,101 @@ const Education = () => {
     return (
         <section id="education" className="education-section">
             <div className="container">
-                <h2 className="section-title">Education<span className="text-accent">.</span></h2>
+                <h2 className="section-title">Education.</h2>
 
-                <div className="timeline-grid">
+                <div className="experience-list">
                     {education.map((edu, index) => (
-                        <GlassSurface
-                            key={index}
-                            width="100%"
-                            height="auto"
-                            borderRadius={20}
-                            opacity={1}
-                            backgroundOpacity={0.03}
-                            blur={10}
-                            borderWidth={0.08}
-                            mixBlendMode="normal"
-                            className="education-card"
-                        >
-                            <div className="exp-content">
-                                <div className="exp-header">
-                                    <span className={`exp-tag ${edu.type}`}>{edu.type}</span>
-                                    <span className="exp-period">{edu.period}</span>
-                                </div>
-                                <h3>{edu.role}</h3>
-                                <h4>{edu.company}</h4>
-                                <p>{edu.description}</p>
+                        <div key={index} className="experience-item">
+                            <div className="exp-meta">
+                                <span className="exp-period">{edu.period}</span>
+                                <span className="exp-type">{edu.type}</span>
                             </div>
-                        </GlassSurface>
+                            
+                            <div className="exp-details">
+                                <h3 className="exp-role">{edu.role}</h3>
+                                <h4 className="exp-company">{edu.company}</h4>
+                                <p className="exp-desc">{edu.description}</p>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>
 
             <style>{`
         .education-section {
-          padding: 6rem 0;
-          position: relative;
+          padding: 8rem 0;
+          border-top: 1px solid var(--border-subtle);
         }
 
-        .timeline-grid {
-          display: grid;
-          gap: 2rem;
-          max-width: 800px;
-          margin: 0 auto;
-        }
-
-        .exp-content {
-          padding: 2rem;
-          width: 100%;
-        }
-
-        .exp-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1rem;
-        }
-
-        .exp-tag {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          padding: 4px 12px;
-          border-radius: 50px;
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
           font-weight: 600;
+          letter-spacing: -0.02em;
+          color: var(--text-primary);
+          margin-bottom: 4rem;
         }
 
-        .exp-tag.education {
-          background: rgba(138, 92, 255, 0.1);
-          color: #8a5cff;
-          border: 1px solid rgba(138, 92, 255, 0.2);
+        .experience-list {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .experience-item {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 3rem 0;
+          border-top: 1px solid var(--border-subtle);
+        }
+
+        @media (min-width: 768px) {
+          .experience-item {
+            grid-template-columns: 1fr 3fr;
+            gap: 4rem;
+          }
+        }
+
+        .experience-item:last-child {
+          border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .exp-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
         .exp-period {
-          font-size: 0.9rem;
+          font-size: 1rem;
           color: var(--text-secondary);
         }
 
-        .exp-content h3 {
-          font-size: 1.5rem;
-          margin-bottom: 0.5rem;
-          color: white;
-        }
-
-        .exp-content h4 {
-          font-size: 1.1rem;
-          margin-bottom: 1rem;
-          color: var(--accent);
+        .exp-type {
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--text-tertiary);
           font-weight: 500;
         }
 
-        .exp-content p {
+        .exp-role {
+          font-size: 1.5rem;
+          font-weight: 500;
+          color: var(--text-primary);
+          margin-bottom: 0.25rem;
+        }
+
+        .exp-company {
+          font-size: 1.1rem;
+          color: var(--text-secondary);
+          font-weight: 400;
+          margin-bottom: 1.25rem;
+        }
+
+        .exp-desc {
           color: var(--text-secondary);
           line-height: 1.6;
+          font-size: 1.05rem;
         }
       `}</style>
         </section>

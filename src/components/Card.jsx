@@ -1,6 +1,6 @@
-const Card = ({ title, category, image, description, link, linkLabel = "View Case Study" }) => {
+const Card = ({ title, category, image, description, onClick }) => {
   return (
-    <div className="card glass">
+    <div className="card" onClick={onClick} style={{ cursor: 'pointer' }}>
       <div className="card-image">
         {image ? (
           <img src={image} alt={title} />
@@ -9,35 +9,46 @@ const Card = ({ title, category, image, description, link, linkLabel = "View Cas
             <span className="placeholder-letter">{title.charAt(0)}</span>
           </div>
         )}
-        <span className="card-category">{category}</span>
       </div>
       <div className="card-content">
+        <span className="card-category">{category}</span>
         <h3>{title}</h3>
         <p>{description}</p>
-        {link && (
-          <a href={link} className="card-link" target="_blank" rel="noopener noreferrer">
-            {linkLabel} &rarr;
-          </a>
-        )}
+        <button 
+          className="card-link-visual"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onClick) onClick();
+          }}
+        >
+          View Case Study &rarr;
+        </button>
       </div>
 
       <style>{`
         .card {
-          border-radius: var(--radius-lg);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          background-color: var(--glass-bg);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
           overflow: hidden;
-          transition: 0.4s ease;
-          position: relative;
+          transition: border-color 0.2s ease, transform 0.2s ease;
         }
 
         .card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(59, 130, 246, 0.2);
-          border-color: rgba(59, 130, 246, 0.4);
+          border-color: var(--text-secondary);
+          transform: translateY(-4px);
         }
 
         .card-image {
+          width: 100%;
           height: 240px;
-          background: #1a1a1a;
+          background-color: var(--glass-bg);
+          border-bottom: 1px solid var(--border-subtle);
           position: relative;
           overflow: hidden;
         }
@@ -46,7 +57,7 @@ const Card = ({ title, category, image, description, link, linkLabel = "View Cas
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: 0.5s ease;
+          transition: transform 0.3s ease;
         }
 
         .card:hover .card-image img {
@@ -56,60 +67,66 @@ const Card = ({ title, category, image, description, link, linkLabel = "View Cas
         .placeholder-img {
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(0, 255, 209, 0.05));
           display: flex;
           align-items: center;
           justify-content: center;
+          background-color: var(--glass-bg);
         }
 
         .placeholder-letter {
-            font-size: 6rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.1);
-            text-transform: uppercase;
-        }
-
-        .card-category {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          padding: 4px 12px;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(4px);
-          border-radius: 100px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #fff;
-          border: 1px solid rgba(255,255,255,0.1);
+          color: var(--text-tertiary);
+          font-size: 4rem;
+          font-weight: 700;
+          text-transform: uppercase;
         }
 
         .card-content {
-          padding: 24px;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
+        .card-category {
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--text-secondary);
+          margin-bottom: 0.75rem;
         }
 
         .card-content h3 {
           font-size: 1.25rem;
           margin-bottom: 0.5rem;
+          color: var(--text-primary);
         }
 
         .card-content p {
           font-size: 0.95rem;
+          color: var(--text-secondary);
+          line-height: 1.5;
           margin-bottom: 1.5rem;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+          flex-grow: 1;
         }
 
-        .card-link {
-          color: var(--accent);
-          font-weight: 600;
+        .card-link-visual {
+          align-self: flex-start;
+          color: var(--text-primary);
+          font-weight: 500;
           font-size: 0.9rem;
+          padding: 0;
+          transition: color 0.2s;
+          background: none;
+          border: none;
+          cursor: pointer;
         }
-        
-        .card-link:hover {
-          color: var(--accent-hover);
-          text-decoration: underline;
+
+        .card:hover .card-link-visual {
+          background: rgba(59, 130, 246, 0.8);
+          border-color: rgba(59, 130, 246, 1);
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
       `}</style>
     </div>

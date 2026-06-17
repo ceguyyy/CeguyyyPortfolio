@@ -49,6 +49,20 @@
 }
 
 /* Background Image Styles */
+.magic-bento-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
 .magic-bento-card__bg {
     position: absolute;
     inset: 0;
@@ -76,7 +90,7 @@
     z-index: 0;
 }
 
-/* Fallback Styles (Pill/Initial) */
+/* Fallback Styles */
 .magic-bento-card__fallback {
     position: absolute;
     inset: 0;
@@ -85,21 +99,19 @@
     justify-content: center;
     font-size: 8rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.05);
+    color: var(--border-subtle);
+    background-color: var(--bg-primary);
     pointer-events: none;
     z-index: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
 }
-
 
 .magic-bento-card__header,
 .magic-bento-card__content {
     display: flex;
     position: relative;
-    color: var(--white);
+    color: var(--text-primary);
     pointer-events: none;
     z-index: 2;
-    /* Ensure text is above bg */
 }
 
 .magic-bento-card__header {
@@ -112,33 +124,34 @@
 }
 
 .magic-bento-card__label {
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
     padding: 4px 10px;
     border-radius: 100px;
-    font-size: 0.8em;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
 }
 
 .magic-bento-card__title,
 .magic-bento-card__description {
     --clamp-title: 1;
     --clamp-desc: 2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    /* Better readability */
 }
 
 .magic-bento-card__title {
     font-weight: 600;
-    font-size: 1.2em;
-    margin: 0 0 0.25em;
+    font-size: 1.25em;
+    margin: 0 0 0.5em;
+    color: var(--text-primary);
 }
 
 .magic-bento-card__description {
     font-size: 0.95em;
     line-height: 1.5;
-    opacity: 0.95;
+    color: var(--text-secondary);
 }
 
 .magic-bento-card--text-autohide .magic-bento-card__title,
@@ -162,9 +175,8 @@
 @media (max-width: 599px) {
     .card-grid {
         grid-template-columns: 1fr;
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
-        padding: 0.5em;
     }
 
     .magic-bento-card {
@@ -199,72 +211,6 @@
         grid-column: 4;
         grid-row: 3;
     }
-}
-
-/* Border glow effect */
-.magic-bento-card--border-glow::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 6px;
-    background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-            rgba(132, 0, 255, calc(var(--glow-intensity) * 0.8)) 0%,
-            rgba(132, 0, 255, calc(var(--glow-intensity) * 0.4)) 30%,
-            transparent 60%);
-    border-radius: inherit;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-}
-
-.magic-bento-card--border-glow:hover::after {
-    opacity: 1;
-}
-
-.magic-bento-card--border-glow:hover {
-    box-shadow:
-        0 4px 20px rgba(46, 24, 78, 0.4),
-        0 0 30px var(--purple-glow);
-}
-
-.particle-container {
-    position: relative;
-    overflow: hidden;
-}
-
-.particle::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: rgba(132, 0, 255, 0.2);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-.particle-container:hover {
-    box-shadow:
-        0 4px 20px rgba(46, 24, 78, 0.2),
-        0 0 30px var(--purple-glow);
-}
-
-/* Global spotlight styles */
-.global-spotlight {
-    mix-blend-mode: screen;
-    will-change: transform, opacity;
-    z-index: 200 !important;
-    pointer-events: none;
 }
 
 .bento-section {

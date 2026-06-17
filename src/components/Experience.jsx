@@ -1,12 +1,17 @@
-import GlassSurface from './GlassSurface';
-
 const Experience = () => {
   const experiences = [
     {
       type: 'Full Time',
       role: 'Solution Architect',
+      company: 'Cekat.AI',
+      period: 'May 2026 - Present',
+      description: 'Designed and implemented agentic AI systems and CRM integrations for multi-channel communication, specializing in Meta (WhatsApp) platform integrations.'
+    },
+    {
+      type: 'Full Time',
+      role: 'Enterprise Solution Architect',
       company: 'Mekari',
-      period: 'Aug 2025 - Present',
+      period: 'Aug 2025 - May 2026',
       description: 'Designed and implemented scalable PAAS (Platform as a Service) solutions, optimizing infrastructure and ensuring robust system architecture.'
     },
     {
@@ -28,98 +33,110 @@ const Experience = () => {
   return (
     <section id="experience" className="experience-section">
       <div className="container">
-        <h2 className="section-title">Experience<span className="text-accent">.</span></h2>
+        <h2 className="section-title">Experience.</h2>
 
-        <div className="timeline-grid">
+        <div className="experience-list">
           {experiences.map((exp, index) => (
-            <GlassSurface
-              key={index}
-              width="100%"
-              height="auto"
-              borderRadius={20}
-              opacity={1}
-              backgroundOpacity={0.03}
-              blur={10}
-              borderWidth={0.08}
-              mixBlendMode="normal"
-              className="experience-card"
-            >
-              <div className="exp-content">
-                <div className="exp-header">
-                  <span className={`exp-tag ${exp.type.toLowerCase().replace(/\s+/g, '-')}`}>{exp.type}</span>
-                  <span className="exp-period">{exp.period}</span>
-                </div>
-                <h3>{exp.role}</h3>
-                <h4>{exp.company}</h4>
-                <p>{exp.description}</p>
+            <div key={index} className="experience-item">
+              <div className="exp-meta">
+                <span className="exp-period">{exp.period}</span>
+                <span className="exp-type">{exp.type}</span>
               </div>
-            </GlassSurface>
+              
+              <div className="exp-details">
+                <h3 className="exp-role">{exp.role}</h3>
+                <h4 className="exp-company">{exp.company}</h4>
+                <p className="exp-desc">{exp.description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
       <style>{`
         .experience-section {
-          padding: 6rem 0;
+          padding: 8rem 0;
+          border-top: 1px solid var(--border-subtle);
         }
 
-        .timeline-grid {
-          display: grid;
-          gap: 2rem;
-          max-width: 800px;
-          margin: 0 auto;
-        }
-
-        .exp-content {
-          padding: 2rem;
-          width: 100%;
-        }
-
-        .exp-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1rem;
-        }
-
-        .exp-tag {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          padding: 4px 12px;
-          border-radius: 50px;
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
           font-weight: 600;
+          letter-spacing: -0.02em;
+          color: var(--text-primary);
+          margin-bottom: 4rem;
         }
 
-        .exp-tag.work,
-        .exp-tag.full-time,
-        .exp-tag.internship {
-          background: rgba(0, 255, 209, 0.1);
-          color: #00ffd1;
-          border: 1px solid rgba(0, 255, 209, 0.2);
+        .experience-list {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .experience-item {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 3rem 0;
+          border-top: 1px solid var(--border-subtle);
+        }
+
+        @media (min-width: 768px) {
+          .experience-item {
+            grid-template-columns: 1fr 3fr;
+            gap: 4rem;
+          }
+        }
+
+        .experience-item:last-child {
+          border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .exp-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
         .exp-period {
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           color: var(--text-secondary);
+          font-family: var(--font-mono);
         }
 
-        .exp-content h3 {
+        .exp-type {
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--text-primary);
+          font-weight: 600;
+        }
+
+        .exp-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .exp-role {
           font-size: 1.5rem;
-          margin-bottom: 0.5rem;
-          color: white;
+          font-weight: 600;
+          color: var(--text-primary);
+          margin: 0;
         }
 
-        .exp-content h4 {
-          font-size: 1.1rem;
-          margin-bottom: 1rem;
+        .exp-company {
+          font-size: 1.125rem;
+          font-weight: 400;
           color: var(--accent);
-          font-weight: 500;
+          margin: 0 0 1rem;
         }
 
-        .exp-content p {
-          color: var(--text-secondary);
+        .exp-desc {
+          font-size: 1.05rem;
           line-height: 1.6;
+          color: var(--text-secondary);
+          margin: 0;
+          max-width: 60ch;
         }
       `}</style>
     </section>

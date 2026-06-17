@@ -111,7 +111,7 @@ const PersonalProjects = () => {
     const bentoItems = personalProjects.map(p => ({
         title: p.title,
         description: p.description,
-        label: p.category,
+        category: p.category,
         color: '#1a1a1a',
         image: p.image,
         onClick: () => window.open(p.link, '_blank')
@@ -121,39 +121,41 @@ const PersonalProjects = () => {
         <section id="personal-projects" className="section personal-projects-section">
             <div className="container">
                 <div className="section-header">
-                    <h2>Side Projects</h2>
-                    <p>Independent experiments, open source contributions, and fun hacks.</p>
+                    <h2 className="section-title">Side Projects.</h2>
+                    <p className="section-subtitle">Independent experiments, open source contributions, and fun hacks.</p>
                 </div>
 
                 <div className="bento-wrapper">
-                    <MagicBento
-                        items={bentoItems}
-                        enableStars={true}
-                        enableSpotlight={true}
-                        enableBorderGlow={true}
-                        enableTilt={true}
-                        enableMagnetism={true}
-                        clickEffect={true}
-                        spotlightRadius={300}
-                        particleCount={12}
-                        glowColor="59, 130, 246" // Blue glow to match theme (converted from accent hex key)
-                    />
+                    <MagicBento items={bentoItems} />
                 </div>
             </div>
 
             <style>{`
         .personal-projects-section {
-          padding: 80px 0;
+          padding: 8rem 0;
+          border-top: 1px solid var(--border-subtle);
         }
 
         .section-header {
-          margin-bottom: 60px;
+          margin-bottom: 4rem;
           max-width: 600px;
+        }
+
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: var(--text-primary);
+          margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+          font-size: 1.1rem;
+          color: var(--text-secondary);
         }
         
         .bento-wrapper {
             width: 100%;
-            /* MagicBento handles responsiveness internally */
         }
       `}</style>
         </section>

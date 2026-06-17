@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import GlassSurface from './GlassSurface';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -17,7 +16,7 @@ const Navbar = () => {
       <div className="container nav-content">
         <div className="logo-area">
           <a href="#" className="logo">
-            CG<span className="text-accent">.</span>
+            CG.
           </a>
         </div>
 
@@ -30,22 +29,8 @@ const Navbar = () => {
         </div>
 
         <div className="nav-actions">
-          <a href="#contact" style={{ textDecoration: 'none' }}>
-            <GlassSurface
-              width="110px"
-              height="38px"
-              borderRadius={20}
-              opacity={1}
-              backgroundOpacity={0.1}
-              blur={12}
-              borderWidth={0.08}
-              displace={20}
-              distortionScale={10}
-              mixBlendMode="normal"
-              className="btn-glass-nav"
-            >
-              <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'white' }}>Let's Talk</span>
-            </GlassSurface>
+          <a href="#contact" className="btn-nav">
+            Let's Talk
           </a>
         </div>
       </div>
@@ -58,13 +43,14 @@ const Navbar = () => {
           width: 100%;
           height: var(--nav-height);
           z-index: 1000;
-          transition: 0.3s ease;
+          transition: background-color 0.2s ease, border-bottom 0.2s ease;
         }
         
         .navbar.scrolled {
-          background: rgba(10, 10, 10, 0.8);
-          backdrop-filter: blur(20px);
-          border-bottom: 1px solid var(--glass-border);
+          background: var(--glass-bg);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--border-subtle);
         }
 
         .nav-content {
@@ -80,8 +66,9 @@ const Navbar = () => {
 
         .logo {
           font-size: 1.5rem;
-          font-weight: 800;
+          font-weight: 700;
           letter-spacing: -0.03em;
+          color: var(--text-primary);
         }
 
         .nav-links.centered {
@@ -95,24 +82,34 @@ const Navbar = () => {
           color: var(--text-secondary);
           font-size: 0.95rem;
           font-weight: 500;
-          transition: 0.2s;
+          transition: color 0.2s ease;
         }
         
         .nav-links a:hover {
-          color: #fff;
+          color: var(--text-primary);
         }
 
         .nav-actions {
             justify-self: end;
         }
 
-        .btn-glass-nav {
-            cursor: pointer;
-            transition: transform 0.2s ease;
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
         }
 
-        .btn-glass-nav:hover {
-            transform: translateY(-1px);
+        .btn-nav:hover {
+            background: var(--text-secondary);
+            color: var(--bg-primary);
         }
       `}</style>
     </nav>

@@ -171,8 +171,21 @@
     text-decoration: underline;
 }
 
+.nav-card-link.active {
+    opacity: 1;
+    font-weight: 700;
+    color: #3b82f6 !important;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.nav-card-link.active .nav-card-link-icon {
+    transform: translate(2px, -2px);
+    transition: transform 0.3s ease;
+}
+
 .nav-card-link-icon {
     font-size: 0.8em;
+    transition: transform 0.3s ease;
 }
 
 @media (max-width: 768px) {
