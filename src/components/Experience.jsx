@@ -350,6 +350,7 @@ const Experience = () => {
           
           .history-track.active {
             border-top: 2px solid #fff;
+            border-left: none;
           }
 
           .track-year {
