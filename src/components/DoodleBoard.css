@@ -19,7 +19,7 @@
 
 @media (min-width: 1025px) {
     .workspace-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 3rem;
     }
 }
