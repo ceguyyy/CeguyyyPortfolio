@@ -120,14 +120,14 @@ const Card = ({ title, category, image, description, onClick, linkLabel }) => {
         .shop-btn {
           display: inline-flex;
           align-items: center;
-          gap: 12px;
+          gap: 8px;
           background: #fff;
           color: #000;
           border: none;
-          padding: 10px 14px 10px 20px;
+          padding: 8px 10px 8px 16px;
           border-radius: 50px;
           font-weight: 700;
-          font-size: 0.95rem;
+          font-size: 0.85rem;
           cursor: pointer;
           transition: all 0.2s ease;
         }
@@ -141,8 +141,8 @@ const Card = ({ title, category, image, description, onClick, linkLabel }) => {
           background: #000;
           color: #fff;
           border-radius: 50%;
-          padding: 6px;
-          font-size: 1.4rem;
+          padding: 4px;
+          font-size: 1.1rem;
         }
 
         .card-category {

@@ -17,7 +17,7 @@ import BackToTop from './components/BackToTop';
 import ColorBends from './components/ColorBends';
 import AudioPlayer from './components/AudioPlayer';
 import WhatsAppWidget from './components/WhatsAppWidget';
-import { SiGithub, SiMysql, SiSwift, SiNotion, SiMiro, SiConfluence, SiFigma, SiGoogle, SiOpenai } from 'react-icons/si';
+import { SiGithub, SiMysql, SiSwift, SiNotion, SiMiro, SiConfluence, SiFigma, SiGoogle, SiOpenai, SiN8N } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
 
 function App() {
@@ -66,6 +66,7 @@ function App() {
     { node: <FaJava />, title: "Java", href: "https://www.java.com" },
     { node: <SiGoogle />, title: "Gemini", href: "https://deepmind.google/technologies/gemini/" },
     { node: <SiOpenai />, title: "ChatGPT", href: "https://openai.com/chatgpt" },
+    { node: <SiN8N />, title: "n8n", href: "https://n8n.io" },
   ];
 
   return (
