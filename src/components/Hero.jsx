@@ -89,11 +89,12 @@ const Hero = () => {
 
       <style>{`
         .hero {
-          height: 100dvh;
+          min-height: 100dvh;
           width: 100%;
           display: flex;
           align-items: center;
           padding-top: var(--nav-height);
+          padding-bottom: 2rem;
           position: relative;
           overflow: hidden;
         }
@@ -295,6 +296,11 @@ const Hero = () => {
         }
 
         @media (max-width: 1024px) {
+          .hero {
+            padding-top: calc(var(--nav-height) + 2rem);
+            padding-bottom: 4rem;
+          }
+          
           .hero-container {
             flex-direction: column-reverse;
             align-items: flex-start;
@@ -302,14 +308,23 @@ const Hero = () => {
           
           .hero-content {
             padding-bottom: 0;
+            margin-top: 2rem;
           }
           
           .hero-visual {
-            align-self: flex-end;
+            align-self: flex-start;
+            margin-bottom: 1rem;
           }
           
           .hero-image-wrapper {
             width: clamp(150px, 30vw, 250px);
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .hero-video-bg {
+             top: 80px;
+             height: calc(100% - 100px);
           }
         }
       `}</style>
