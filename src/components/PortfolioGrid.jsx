@@ -8,6 +8,7 @@ import ebudgetingImg from '../assets/ebudgeting.png';
 import hseImg from '../assets/hse_management.png';
 import auditImg from '../assets/audit_system.png';
 import workflowImg from '../assets/workflow_integration.png';
+import agenticAiImg from '../assets/agentic_ai.png';
 
 const projects = [
     {
@@ -15,7 +16,7 @@ const projects = [
         title: 'Agentic AI Agent & CRM',
         category: 'AI & Enterprise Solution',
         description: 'Intelligent multi-channel AI communication agent with CRM integration.',
-        image: null,
+        image: agenticAiImg,
         techStack: ['Python', 'LangChain', 'React', 'Node.js', 'Meta Graph API'],
         details: [
             'Designed and implemented agentic AI systems for dynamic customer interaction.',
@@ -180,7 +181,9 @@ const PortfolioGrid = ({ onProjectClick }) => {
                     <h2 className="section-title">Selected Work.</h2>
                     <p className="section-subtitle">A collection of project case studies, solution architectures, and digital transformations.</p>
                 </div>
+            </div>
 
+            <div className="filter-container">
                 <div className="filter-bar">
                     {categories.map(cat => (
                         <button
@@ -192,15 +195,35 @@ const PortfolioGrid = ({ onProjectClick }) => {
                         </button>
                     ))}
                 </div>
+            </div>
 
-                <div className="grid">
-                    {filteredProjects.map(p => (
-                        <Card 
-                            key={p.id} 
-                            {...p} 
-                            onClick={() => onProjectClick(p)}
-                        />
-                    ))}
+            <div 
+                className="carousel-wrapper" 
+                style={{ overflowX: filteredProjects.length > 3 ? 'hidden' : 'auto' }}
+            >
+                <div className={`carousel-track ${filteredProjects.length > 3 ? 'animated' : 'static'}`}>
+                    <div className="carousel-group">
+                        {filteredProjects.map(p => (
+                            <div key={p.id} className="carousel-item">
+                                <Card 
+                                    {...p} 
+                                    onClick={() => onProjectClick(p)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    {filteredProjects.length > 3 && (
+                        <div className="carousel-group" aria-hidden="true">
+                            {filteredProjects.map(p => (
+                                <div key={`${p.id}-dup`} className="carousel-item">
+                                    <Card 
+                                        {...p} 
+                                        onClick={() => onProjectClick(p)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -213,12 +236,16 @@ const PortfolioGrid = ({ onProjectClick }) => {
         .section-header {
           margin-bottom: 3rem;
           max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
         }
 
         .section-title {
-          font-size: clamp(2rem, 4vw, 2.5rem);
-          font-weight: 600;
-          letter-spacing: -0.02em;
+          font-size: clamp(3rem, 7vw, 4.5rem);
+          font-weight: 700;
+          letter-spacing: -0.04em;
+          line-height: 1.05;
           color: var(--text-primary);
           margin-bottom: 1rem;
         }
@@ -228,45 +255,111 @@ const PortfolioGrid = ({ onProjectClick }) => {
           color: var(--text-secondary);
         }
 
-        .filter-bar {
+        .filter-container {
           display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
+          width: 100%;
+          overflow-x: auto;
+          scrollbar-width: none;
           margin-bottom: 40px;
+          -webkit-overflow-scrolling: touch;
+          padding: 0 24px;
+        }
+        
+        .filter-container::before,
+        .filter-container::after {
+          content: '';
+          flex: 1;
+        }
+
+        .filter-container::-webkit-scrollbar {
+          display: none;
+        }
+
+        .filter-bar {
+          display: inline-flex;
+          flex-wrap: nowrap;
+          gap: 6px;
+          background: rgba(255, 255, 255, 0.05);
+          padding: 6px;
+          border-radius: 100px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .filter-btn {
-          padding: 8px 18px;
-          border-radius: var(--radius-sm);
-          background: var(--bg-primary);
-          border: 1px solid var(--border-subtle);
+          padding: 10px 24px;
+          border-radius: 100px;
+          background: transparent;
+          border: none;
           color: var(--text-secondary);
-          font-size: 0.85rem;
-          font-weight: 500;
-          transition: all 0.2s ease;
+          font-size: 0.9rem;
+          font-weight: 600;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
+          white-space: nowrap;
         }
 
         .filter-btn:hover {
-          background: var(--bg-secondary);
           color: var(--text-primary);
         }
 
         .filter-btn.active {
           background: var(--text-primary);
           color: var(--bg-primary);
-          border-color: var(--text-primary);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
 
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 32px;
+        .carousel-wrapper {
+          width: 100%;
+          position: relative;
+          padding: 1rem 0 3rem 0;
+          display: flex;
+          scrollbar-width: none;
+        }
+        
+        .carousel-wrapper::-webkit-scrollbar {
+          display: none;
+        }
+
+        .carousel-track {
+          display: flex;
+          width: max-content;
+        }
+        
+        .carousel-track.animated {
+          animation: scroll 40s linear infinite;
+        }
+
+        .carousel-track.animated:hover {
+          animation-play-state: paused;
+        }
+        
+        .carousel-track.static {
+          padding-left: max(24px, calc((100vw - 1100px) / 2));
+          padding-right: max(24px, calc((100vw - 1100px) / 2));
+        }
+
+        .carousel-group {
+          display: flex;
+          gap: 2rem;
+        }
+        
+        .carousel-track.animated .carousel-group {
+          padding-right: 2rem;
+        }
+
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        .carousel-item {
+          width: 400px;
+          flex-shrink: 0;
         }
 
         @media (max-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr;
+            .carousel-item {
+                min-width: 85vw;
             }
             .filter-bar {
                 gap: 8px;

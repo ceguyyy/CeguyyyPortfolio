@@ -30,7 +30,7 @@ html {
   position: relative;
 }
 
-.app>*:not(.color-bends-container) {
+.app>*:not(.color-bends-container):not(.topnav) {
   position: relative;
   z-index: 1;
 }

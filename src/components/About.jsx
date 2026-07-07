@@ -74,10 +74,10 @@ const About = () => {
         }
 
         .section-title {
-          font-size: clamp(2.5rem, 5vw, 3.5rem);
+          font-size: clamp(3rem, 7vw, 4.5rem);
           font-weight: 700;
-          letter-spacing: -0.03em;
-          line-height: 1.1;
+          letter-spacing: -0.04em;
+          line-height: 1.05;
           color: var(--text-primary);
           margin: 0;
         }

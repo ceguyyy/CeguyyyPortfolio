@@ -23,8 +23,13 @@ const Hero = () => {
 
   return (
     <section className="hero">
-      <div className="container hero-grid">
-        <div className="hero-text-column animate-fade-in">
+      <div className="container hero-container">
+        
+        <div className="hero-content animate-fade-in">
+          <div className="hero-badge">
+            <span className="badge-dot"></span>
+            PORTFOLIO 2026
+          </div>
           <h1 className="hero-headline">
             Christian Gunawan. <br/>
             <span className="hero-subheadline">
@@ -45,14 +50,13 @@ const Hero = () => {
             >
               Download CV
             </a>
-
             <a href="#contact" className="btn-secondary">
               Contact
             </a>
           </div>
         </div>
 
-        <div className="hero-image-column animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <div className="hero-visual animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <div className="hero-image-wrapper">
             <img src={profileImg} alt="Christian Gunawan" className="hero-image" />
           </div>
@@ -61,85 +65,54 @@ const Hero = () => {
 
       <style>{`
         .hero {
-          min-height: 100dvh;
+          height: 100dvh;
+          width: 100%;
           display: flex;
           align-items: center;
-          position: relative;
           padding-top: var(--nav-height);
         }
 
-        .hero-grid {
+        .hero-container {
           width: 100%;
-          display: grid;
-          grid-template-columns: repeat(12, 1fr);
-          gap: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 2rem;
         }
 
-        .hero-text-column {
-          grid-column: 1 / -1;
+        .hero-content {
+          max-width: 800px;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          text-align: left;
+          padding-bottom: 2rem;
         }
-
-        @media (min-width: 768px) {
-          .hero-text-column {
-            grid-column: 1 / 10;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .hero-text-column {
-            grid-column: 1 / 8;
-          }
-        }
-
-        .hero-image-column {
-          grid-column: 1 / -1;
+        
+        .hero-badge {
           display: flex;
           align-items: center;
-          justify-content: center;
-          margin-top: 2rem;
+          gap: 0.5rem;
+          color: var(--accent, #eab308);
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          font-size: 0.9rem;
+          margin-bottom: 1.5rem;
+          text-transform: uppercase;
         }
-
-        @media (min-width: 768px) {
-          .hero-image-column {
-            grid-column: 8 / 13;
-            margin-top: 0;
-            justify-content: flex-end;
-          }
-        }
-
-        .hero-image-wrapper {
-          width: clamp(200px, 30vw, 320px);
-          aspect-ratio: 1;
-          border-radius: var(--radius-lg);
-          overflow: hidden;
-          border: 1px solid var(--border-subtle);
-          background-color: var(--glass-bg);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .hero-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: grayscale(10%);
-          transition: transform 0.5s ease;
-        }
-
-        .hero-image-wrapper:hover .hero-image {
-          transform: scale(1.05);
-          filter: grayscale(0%);
+        
+        .badge-dot {
+          width: 8px;
+          height: 8px;
+          background-color: var(--accent, #eab308);
+          border-radius: 50%;
         }
 
         .hero-headline {
-          font-size: clamp(3rem, 6vw, 5.5rem);
-          line-height: 1;
+          font-size: clamp(3rem, 7vw, 6.5rem);
+          line-height: 1.05;
           margin-bottom: 1.5rem;
           letter-spacing: -0.04em;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-primary);
         }
         
@@ -180,13 +153,13 @@ const Hero = () => {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          height: 48px;
-          padding: 0 24px;
+          height: 54px;
+          padding: 0 32px;
           border-radius: var(--radius-md);
           background-color: var(--text-primary);
           color: var(--bg-primary);
-          font-size: 0.95rem;
-          font-weight: 500;
+          font-size: 1.05rem;
+          font-weight: 600;
           transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
         }
 
@@ -202,23 +175,49 @@ const Hero = () => {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          height: 48px;
-          padding: 0 24px;
+          height: 54px;
+          padding: 0 32px;
           border-radius: var(--radius-md);
           background-color: transparent;
-          border: 1px solid var(--border-subtle);
+          border: 1px solid rgba(255,255,255,0.2);
           color: var(--text-primary);
-          font-size: 0.95rem;
-          font-weight: 500;
+          font-size: 1.05rem;
+          font-weight: 600;
           transition: background-color 0.2s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-secondary:hover {
-          background-color: var(--bg-secondary);
+          background-color: rgba(255,255,255,0.05);
         }
 
         .btn-secondary:active {
           transform: scale(0.98);
+        }
+        
+        .hero-visual {
+          flex-shrink: 0;
+        }
+
+        .hero-image-wrapper {
+          width: clamp(200px, 20vw, 300px);
+          aspect-ratio: 1;
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          background-color: transparent;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          filter: grayscale(10%);
+          transition: transform 0.5s ease;
+        }
+
+        .hero-image-wrapper:hover .hero-image {
+          transform: scale(1.05);
+          filter: grayscale(0%);
         }
 
         .animate-fade-in {
@@ -229,6 +228,25 @@ const Hero = () => {
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1024px) {
+          .hero-container {
+            flex-direction: column-reverse;
+            align-items: flex-start;
+          }
+          
+          .hero-content {
+            padding-bottom: 0;
+          }
+          
+          .hero-visual {
+            align-self: flex-end;
+          }
+          
+          .hero-image-wrapper {
+            width: clamp(150px, 30vw, 250px);
+          }
         }
       `}</style>
     </section>
