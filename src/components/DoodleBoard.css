@@ -13,8 +13,15 @@
 .workspace-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
     margin-top: 2rem;
+}
+
+@media (min-width: 1025px) {
+    .workspace-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
 }
 
 .doodle-container {
@@ -217,7 +224,7 @@
     left: 50%;
     transform: translate(-50%, -50%) rotate(-22.5deg);
     font-family: 'Space Mono', monospace;
-    font-size: 80px;
+    font-size: clamp(30px, 6vw, 80px);
     font-weight: bold;
     color: rgba(0, 0, 0, 0.04);
     pointer-events: none;
@@ -263,9 +270,18 @@
 }
 
 @media (max-width: 768px) {
+    .doodle-section {
+        padding-top: 2rem;
+        padding-bottom: 6rem;
+    }
+    .doodle-section .container {
+        width: 100%;
+        padding: 0 16px;
+    }
     .doodle-toolbar {
         justify-content: center;
-        padding: 1rem;
+        padding: 0.75rem;
+        gap: 0.5rem;
     }
     .toolbar-group.ml-auto {
         margin-left: 0;
@@ -273,9 +289,24 @@
         justify-content: center;
     }
     .canvas-wrapper {
-        height: 400px;
+        height: 350px;
+    }
+    .editor-wrapper {
+        padding: 1.5rem;
+        min-height: 500px;
+    }
+    .rich-text-editor {
+        min-height: 500px;
     }
     .toolbar-divider {
         display: none;
+    }
+    .tool-btn {
+        width: 38px;
+        height: 38px;
+    }
+    .color-picker {
+        width: 38px;
+        height: 38px;
     }
 }
