@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MagicBento from './MagicBento';
+import ParticleNetwork from './ParticleNetwork';
 import pawpalsImg from '../assets/pawpals.png';
 import powercalsImg from '../assets/powercals.png';
 import bicaraImg from '../assets/bicara.png';
@@ -11,7 +12,8 @@ const personalProjects = [
         title: 'PawPals',
         category: 'SpriteKit Game Programmer',
         description: 'A fellowship game featuring two charming cats, Catio and Kitty. The game combines engaging storytelling with beautiful illustrations to teach the value of harmony and teamwork.',
-        image: pawpalsImg,
+        image: null,
+        bgGradient: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
         link: 'https://github.com/tandyys/MiniChallenge2-MonkStudio',
         linkLabel: 'View on GitHub'
     },
@@ -48,6 +50,7 @@ const personalProjects = [
         category: 'Mobile UI/UX',
         description: 'Immersive mobile app interface design for exploring Borobudur Temple.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
         link: 'https://www.figma.com/proto/8QgHjS0WUU380aWLhdB1nD/UAS_Christian-Gunawan_2540115521_HCI?node-id=19%3A877&scaling=scale-down&page-id=0%3A1&starting-point-node-id=19%3A835',
         linkLabel: 'View Prototype'
     },
@@ -57,6 +60,7 @@ const personalProjects = [
         category: 'Mobile UI/UX',
         description: 'Modern diet and health tracking application design.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
         link: 'https://www.figma.com/proto/sxmRZK74dj7Ge2wYknXDfy/Christian-X-Ivan?scaling=min-zoom&page-id=0%3A1&starting-point-node-id=2%3A7&show-proto-sidebar=1&node-id=2%3A7',
         linkLabel: 'View Prototype'
     },
@@ -66,6 +70,7 @@ const personalProjects = [
         category: 'Web Development',
         description: 'A dynamic gaming website inspired by Apex Legends.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)',
         link: 'https://adex-legends-christian-gunawan-2540115521.netlify.app/',
         linkLabel: 'View Site'
     },
@@ -75,6 +80,7 @@ const personalProjects = [
         category: 'Web Design',
         description: 'Elegant web design for a premium aquarium experience.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
         link: 'https://piscis-aquarium-christian-gunawan-2540115521.netlify.app/',
         linkLabel: 'View Site'
     },
@@ -84,6 +90,7 @@ const personalProjects = [
         category: 'Mobile Design',
         description: 'Mobile user interface design for the Kelana travel application.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
         link: 'https://www.figma.com/proto/HuDgSnlEMSAkRbY9BxZ9eW/Kelana-App?node-id=36%3A1482&scaling=min-zoom&page-id=32%3A300&starting-point-node-id=36%3A1482',
         linkLabel: 'View Prototype'
     },
@@ -93,6 +100,7 @@ const personalProjects = [
         category: 'Web Design',
         description: 'Web, desktop interface design for the Kelana travel platform.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
         link: 'https://www.figma.com/proto/HuDgSnlEMSAkRbY9BxZ9eW/Kelana-App?node-id=159-2825&scaling=min-zoom&page-id=159%3A1110&starting-point-node-id=159%3A2825&show-proto-sidebar=1',
         linkLabel: 'View Prototype'
     },
@@ -102,24 +110,49 @@ const personalProjects = [
         category: 'Data Visualization',
         description: 'Interactive map visualizing stunting prevalence across Indonesia to identify areas requiring attention.',
         image: null,
+        bgGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         link: 'https://rcsbinusem4.netlify.app/',
         linkLabel: 'View Map'
     }
 ];
 
 const PersonalProjects = () => {
-    const bentoItems = personalProjects.map(p => ({
+    const sizes = [
+        'bento-large', // PawPals (0)
+        'bento-wide',  // PowerCals (1)
+        'bento-tall',  // Bicara (2)
+        'bento-normal',// Hanvest (3)
+        'bento-wide',  // Borobudur (4)
+        'bento-normal',// Dietio (5)
+        'bento-normal',// Adex (6)
+        'bento-large', // Piscis (7)
+        'bento-tall',  // Kelana Mobile (8)
+        'bento-normal',// Kelana Web (9)
+        'bento-wide',  // Peta Stunting (10)
+    ];
+
+    const bentoItems = personalProjects.map((p, index) => ({
         title: p.title,
         description: p.description,
         category: p.category,
         color: '#1a1a1a',
+        sizeClass: sizes[index] || 'bento-normal',
         image: p.image,
+        bgGradient: p.bgGradient,
         onClick: () => window.open(p.link, '_blank')
     }));
 
     return (
-        <section id="personal-projects" className="section personal-projects-section">
-            <div className="container">
+        <section id="personal-projects" className="section personal-projects-section" style={{ position: 'relative', overflow: 'hidden' }}>
+            <ParticleNetwork 
+                particleCount={80} 
+                connectionDistance={180} 
+                color="rgba(255, 255, 255, 0.25)" 
+                lineWidth={1.5}
+                zIndex={10}
+            />
+            
+            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
                 <div className="section-header">
                     <h2 className="section-title">Side Projects.</h2>
                     <p className="section-subtitle">Independent experiments, open source contributions, and fun hacks.</p>

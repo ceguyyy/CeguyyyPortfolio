@@ -7,6 +7,7 @@ import Education from './components/Education';
 import PortfolioGrid from './components/PortfolioGrid';
 import PersonalProjects from './components/PersonalProjects';
 import Organization from './components/Organization';
+import DoodleBoard from './components/DoodleBoard';
 import Certificates from './components/Certificates';
 import Footer from './components/Footer';
 import RevealScroll from './components/RevealScroll';
@@ -14,6 +15,8 @@ import LogoLoop from './components/LogoLoop';
 import ProjectModal from './components/ProjectModal';
 import BackToTop from './components/BackToTop';
 import ColorBends from './components/ColorBends';
+import AudioPlayer from './components/AudioPlayer';
+import WhatsAppWidget from './components/WhatsAppWidget';
 import { SiGithub, SiMysql, SiSwift, SiNotion, SiMiro, SiConfluence, SiFigma, SiGoogle, SiOpenai } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
 
@@ -104,6 +107,7 @@ function App() {
       <RevealScroll><Organization /></RevealScroll>
       <RevealScroll><Education /></RevealScroll>
       <RevealScroll><Certificates /></RevealScroll>
+      <RevealScroll><DoodleBoard /></RevealScroll>
       <Footer />
       {selectedProject && (
         <ProjectModal
@@ -111,6 +115,8 @@ function App() {
           onClose={() => setSelectedProject(null)}
         />
       )}
+      <AudioPlayer />
+      <WhatsAppWidget />
       <BackToTop />
     </div>
   );

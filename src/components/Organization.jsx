@@ -1,6 +1,9 @@
-import GlassSurface from './GlassSurface';
+import React from 'react';
 import himtiImg from '../assets/himti.png';
 import bnccImg from '../assets/bncc.png';
+import paskibraImg from '../assets/paskibra.png';
+import osisImg from '../assets/osis.png';
+import { User, Calendar } from 'lucide-react';
 
 const Organization = () => {
   const organizations = [
@@ -20,13 +23,13 @@ const Organization = () => {
       role: 'Vice Chairman',
       name: 'Paskibra SMA Tarakanita Citra Raya',
       period: 'High School',
-      image: null
+      image: paskibraImg
     },
     {
       role: 'Lead Design Division',
       name: 'OSIS Student Council',
       period: 'High School',
-      image: null
+      image: osisImg
     }
   ];
 
@@ -35,25 +38,31 @@ const Organization = () => {
       <div className="container">
         <h2 className="section-title">Organizations.</h2>
 
-        <div className="org-list">
+        <div className="cards-grid">
           {organizations.map((org, index) => (
-            <div key={index} className="org-item">
-                <div className="org-visual">
-                  {org.image ? (
-                    <img src={org.image} alt={org.name} className="org-logo" />
-                  ) : (
-                    <div className="org-pill">
-                      {org.name.substring(0, 2).toUpperCase()}
-                    </div>
-                  )}
-                </div>
-                <div className="org-content">
-                  <h3 className="org-name">{org.name}</h3>
-                  <div className="org-meta">
-                    <span className="org-role">{org.role}</span>
-                    <span className="org-period">{org.period}</span>
+            <div key={index} className="org-card">
+              <div className="card-bg-layer">
+                {org.image ? (
+                  <img src={org.image} alt={org.name} className="card-bg-img" />
+                ) : (
+                  <div className="card-bg-placeholder">
+                    {org.name.substring(0, 2).toUpperCase()}
                   </div>
+                )}
+              </div>
+              
+              <div className="card-content">
+                <h3 className="card-company">{org.name}</h3>
+                
+                <div className="card-tags">
+                  <span className="card-tag">
+                    <User size={14} /> {org.role}
+                  </span>
+                  <span className="card-tag">
+                    <Calendar size={14} /> {org.period}
+                  </span>
                 </div>
+              </div>
             </div>
           ))}
         </div>
@@ -63,115 +72,136 @@ const Organization = () => {
         .organization-section {
           padding: 8rem 0;
           border-top: 1px solid var(--border-subtle);
+          color: #fff;
+          font-family: var(--font-main, 'Inter', sans-serif);
         }
 
         .section-title {
-          font-size: clamp(2rem, 4vw, 2.5rem);
-          font-weight: 600;
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 700;
           letter-spacing: -0.02em;
-          color: var(--text-primary);
+          color: #fff;
           margin-bottom: 4rem;
+          font-family: var(--font-display, sans-serif);
         }
 
-        .org-list {
+        .cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 2.5rem;
+          width: 100%;
+        }
+
+        .org-card {
+          position: relative;
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 36px;
+          overflow: hidden;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
-          max-width: 800px;
+          width: 100%;
+          min-height: 420px;
+          box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.4), 
+            inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 2px 20px rgba(255, 255, 255, 0.1); /* Inner glass glare */
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+          justify-content: flex-end;
         }
 
-        .org-item {
+        .org-card:hover {
+          transform: translateY(-8px) scale(1.01);
+          box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.5), 
+            inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+            inset 0 2px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        .card-bg-layer {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          background: rgba(255, 255, 255, 0.03); /* Subtle glass tint */
+          backdrop-filter: blur(24px) saturate(150%); /* Heavy glass blur */
+          -webkit-backdrop-filter: blur(24px) saturate(150%);
           display: flex;
           align-items: center;
-          gap: 1.5rem;
-          padding: 1.5rem;
-          background-color: var(--glass-bg);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid var(--border-subtle);
-          border-radius: var(--radius-md);
-          transition: border-color 0.2s ease;
+          justify-content: center;
+          padding: 3rem;
+          padding-bottom: 10rem;
         }
 
-        .org-item:hover {
-          border-color: var(--text-secondary);
+        .card-bg-img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center;
+          filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+          image-rendering: high-quality;
         }
 
-        .org-visual {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .card-bg-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 8rem;
+          font-weight: 800;
+          color: rgba(0, 0, 0, 0.05);
+          background: #f5f5f5;
         }
 
-        .org-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: var(--radius-sm);
-        }
-
-        .org-pill {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-        }
-
-        .org-content {
-          flex: 1;
+        .card-content {
+          position: relative;
+          z-index: 10;
+          padding: 3rem 2rem 2rem 2rem;
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 40%, transparent 100%);
+          backdrop-filter: blur(1.5px);
+          -webkit-backdrop-filter: blur(1.5px);
+          margin-top: auto;
+          min-height: 40%;
+          justify-content: flex-end;
         }
 
-        .org-name {
-          font-size: 1.1rem;
+        .card-company {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: white;
+          margin: 0 0 0.5rem 0;
+          font-family: var(--font-display, sans-serif);
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .card-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .card-tag {
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 0.9rem;
           font-weight: 500;
-          color: var(--text-primary);
-          margin: 0;
-        }
-
-        .org-meta {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 6px;
+          text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-
-        .org-role {
-          color: var(--text-primary);
-          font-weight: 500;
-          font-size: 0.9rem;
-        }
-
-        .org-period {
-          color: var(--text-secondary);
-          font-size: 0.9rem;
-        }
-
-        @media (max-width: 640px) {
-            .org-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-                padding: 1.25rem;
-            }
-            
-            .org-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.25rem;
-            }
+        
+        @media (max-width: 768px) {
+          .cards-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </section>

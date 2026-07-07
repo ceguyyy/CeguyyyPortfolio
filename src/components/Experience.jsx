@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import cekatLogo from '../assets/cekat.png';
 import mekariLogo from '../assets/mekari.png';
 import siloamLogo from '../assets/siloam.png';
@@ -40,227 +40,319 @@ const Experience = () => {
     }
   ];
 
+  // Reverse to go chronologically left to right
+  const sortedExperiences = [...experiences].reverse();
+  const [activeIndex, setActiveIndex] = useState(sortedExperiences.length - 1);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const next = () => setActiveIndex((prev) => (prev + 1) % sortedExperiences.length);
+  const prev = () => setActiveIndex((prev) => (prev - 1 + sortedExperiences.length) % sortedExperiences.length);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      // Disable auto-play on mobile to prevent extreme scroll jumping from the accordion
+      if (typeof window !== 'undefined' && window.innerWidth <= 1024) return;
+      setActiveIndex((prev) => (prev + 1) % sortedExperiences.length);
+    }, 3000); // Auto-advance every 1.5 seconds
+    return () => clearInterval(timer);
+  }, [isPaused, sortedExperiences.length]);
+
+  const extractDate = (period) => {
+    // e.g. "May 2026 - Present" -> "May 2026"
+    return period.split('-')[0].trim();
+  };
+
   return (
-    <section id="experience" className="experience-section">
-      <div className="container">
-        <h2 className="section-title">Experience.</h2>
-        
-        <div className="timeline-zigzag">
-          <div className="timeline-line"></div>
-          
-          {experiences.map((exp, index) => (
-            <div key={index} className={`timeline-row ${index % 2 === 0 ? 'row-left' : 'row-right'}`}>
-              
-              <div className="timeline-card">
-                <div className="exp-meta">
-                  <span className="exp-period">{exp.period}</span>
-                  <span className="exp-type">{exp.type}</span>
-                </div>
-                <h3 className="exp-role">{exp.role}</h3>
-                <h4 className="exp-company">{exp.company}</h4>
-                <p className="exp-desc">{exp.description}</p>
-              </div>
+    <section id="experience" className="history-section">
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', height: '100%', maxWidth: '1400px' }}>
 
-              <div className="timeline-logo">
-                <img src={exp.logo} alt={exp.company} />
-              </div>
-
-              <div className="timeline-empty"></div>
-            </div>
-          ))}
+        <div className="history-header">
+          <h2 className="history-title"><span>OUR</span> EXPERIENCE</h2>
+          <div className="history-nav">
+            <button onClick={prev}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <button onClick={next}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+          </div>
         </div>
+
+        <div className="history-body">
+          <div className="active-year-display">
+            {extractDate(sortedExperiences[activeIndex].period)}
+          </div>
+
+          <div
+            className="history-tracks"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {sortedExperiences.map((exp, idx) => (
+              <div
+                key={idx}
+                className={`history-track ${idx === activeIndex ? 'active' : ''}`}
+                onClick={() => setActiveIndex(idx)}
+              >
+                <div className="track-year">{extractDate(exp.period)}</div>
+
+                {idx === activeIndex && (
+                  <div className="track-content">
+                    <h3 className="track-company">{exp.company}</h3>
+                    <div className="track-image-wrapper">
+                      <img src={exp.logo} alt={exp.company} />
+                    </div>
+                    <div className="track-details">
+                      <div className="track-meta">
+                        <span className="track-type">{exp.type}</span>
+                        <span className="track-period">{exp.period}</span>
+                      </div>
+                      <h4 className="track-role">{exp.role}</h4>
+                      <p className="track-desc">{exp.description}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
       <style>{`
-        .experience-section {
-          padding: 8rem 0 4rem;
+        .history-section {
+          padding: 8rem 0;
           border-top: 1px solid var(--border-subtle);
+          color: #fff;
+          font-family: 'Inter', sans-serif;
           overflow: hidden;
+          background: transparent;
         }
-
-        .section-title {
-          font-size: clamp(3rem, 7vw, 4.5rem);
-          font-weight: 700;
-          letter-spacing: -0.04em;
-          line-height: 1.05;
-          color: var(--text-primary);
-          margin-bottom: 4rem;
-          text-align: center;
-        }
-
-        .timeline-zigzag {
-          position: relative;
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: 2rem 0;
-        }
-
-        .timeline-line {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 50%;
-          width: 2px;
-          background: rgba(255, 255, 255, 0.1);
-          transform: translateX(-50%);
-        }
-
-        .timeline-row {
+        
+        .history-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 4rem;
-          position: relative;
-          width: 100%;
         }
 
-        .timeline-row:last-child {
-          margin-bottom: 0;
+        .history-title {
+          font-size: 1.5rem;
+          color: #fff;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          margin: 0;
+        }
+        
+        .history-title span {
+          color: rgba(255,255,255,0.7);
         }
 
-        .timeline-card {
-          width: 45%;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 24px;
-          padding: 2.5rem;
-          transition: transform 0.3s ease, background 0.3s ease;
-          position: relative;
-          z-index: 2;
+        .history-nav {
+          display: flex;
+          gap: 1rem;
         }
 
-        .timeline-card:hover {
-          transform: translateY(-5px);
-          background: rgba(255, 255, 255, 0.05);
-          border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .timeline-empty {
-          width: 45%;
-        }
-
-        .timeline-logo {
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100px;
-          height: 100px;
-          background: #111;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+        .history-nav button {
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.2);
+          color: #fff;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 3;
-          overflow: hidden;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-          padding: 16px;
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
 
-        .timeline-logo img {
-          width: 100%;
+        .history-nav button:hover {
+          background: rgba(255,255,255,0.1);
+          border-color: rgba(255,255,255,0.5);
+        }
+
+        .history-body {
+          display: flex;
+          position: relative;
+          height: 650px; /* Fixed height prevents scroll jumping on desktop */
+        }
+
+        .active-year-display {
+          flex: 0 0 35%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          font-size: clamp(4rem, 6vw, 7rem);
+          font-weight: 800;
+          color: #fff;
+          line-height: 1.1;
+          padding-right: 2rem;
+          letter-spacing: -0.05em;
+          word-wrap: break-word;
+        }
+
+        .history-tracks {
+          flex: 1;
+          display: flex;
+          position: relative;
+        }
+
+        .history-track {
+          flex: 1;
+          border-left: 1px solid rgba(255,255,255,0.1);
+          position: relative;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+          cursor: pointer;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          display: flex;
+          flex-direction: column;
+        }
+
+        .history-track:hover {
+          background: rgba(255,255,255,0.02);
+        }
+
+        .history-track.active {
+          flex: 4;
+          border-left: 2px solid #fff;
+          background: transparent;
+          cursor: default;
+        }
+
+        .track-year {
+          font-size: 1.2rem;
+          color: rgba(255,255,255,0.3);
+          font-weight: 600;
+          margin-bottom: 3rem;
+          margin-top: 0.5rem;
+          transition: color 0.3s ease;
+          white-space: nowrap;
+        }
+
+        .history-track.active .track-year {
+          color: #fff;
+        }
+
+        .track-content {
+          opacity: 0;
+          animation: fadeIn 0.8s ease forwards 0.3s;
+          display: flex;
+          flex-direction: column;
           height: 100%;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .track-company {
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 0 0 1.5rem 0;
+          color: #fff;
+          letter-spacing: -0.02em;
+        }
+
+        .track-image-wrapper {
+          width: 100%;
+          max-width: 400px;
+          height: 220px;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 12px;
+          margin-bottom: 2rem;
+          padding: 2rem;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .track-image-wrapper img {
+          max-width: 100%;
+          max-height: 100%;
           object-fit: contain;
         }
 
-        .row-left {
-          flex-direction: row;
-        }
-
-        .row-right {
-          flex-direction: row-reverse;
-        }
-
-        .row-left .timeline-card {
-          text-align: right;
-        }
-        
-        .row-left .exp-meta {
-          justify-content: flex-end;
-        }
-
-        .row-right .timeline-card {
-          text-align: left;
-        }
-        
-        .row-right .exp-meta {
-          justify-content: flex-start;
-        }
-
-        .exp-meta {
+        .track-details {
           display: flex;
-          flex-wrap: wrap;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .track-meta {
+          display: flex;
           align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
+          gap: 1rem;
+          margin-bottom: 0.5rem;
         }
 
-        .exp-period {
-          font-size: 0.95rem;
-          color: var(--text-secondary);
-        }
-
-        .exp-type {
+        .track-type {
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: var(--text-primary);
           font-weight: 600;
           padding: 4px 10px;
           background: rgba(255, 255, 255, 0.1);
           border-radius: 50px;
+          color: #fff;
         }
 
-        .exp-role {
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: var(--text-primary);
-          line-height: 1.2;
-          margin: 0 0 0.5rem 0;
-          letter-spacing: -0.02em;
+        .track-period {
+          font-size: 0.9rem;
+          color: rgba(255,255,255,0.5);
         }
 
-        .exp-company {
-          font-size: 1.2rem;
-          font-weight: 500;
-          color: var(--accent);
-          margin: 0 0 1.5rem;
+        .track-role {
+          font-size: 1.5rem;
+          color: #cccccc;
+          margin: 0;
+          font-weight: 600;
         }
 
-        .exp-desc {
+        .track-desc {
+          color: rgba(255,255,255,0.7);
           font-size: 1rem;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.75);
           margin: 0;
+          max-width: 90%;
         }
 
-        @media (max-width: 768px) {
-          .timeline-line {
-            left: 50px;
+        @media (max-width: 1024px) {
+          .history-body {
+            flex-direction: column;
           }
           
-          .timeline-row {
-            flex-direction: row !important;
+          .active-year-display {
+            flex: 0 0 auto;
+            font-size: 6rem;
+            padding: 0 0 3rem 0;
             justify-content: flex-start;
           }
           
-          .timeline-card {
-            width: calc(100% - 120px);
-            margin-left: 120px;
-            text-align: left !important;
-            padding: 2rem 1.5rem;
+          .history-tracks {
+            flex-direction: column;
+            gap: 1rem;
           }
           
-          .row-left .exp-meta, .row-right .exp-meta {
-            justify-content: flex-start !important;
+          .history-track {
+            border-left: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 1.5rem 0;
+            flex: auto !important;
           }
           
-          .timeline-logo {
-            left: 50px;
+          .history-track.active {
+            border-top: 2px solid #fff;
           }
-          
-          .timeline-empty {
-            display: none;
+
+          .track-year {
+            margin-bottom: 1.5rem;
+            margin-top: 0;
           }
         }
       `}</style>

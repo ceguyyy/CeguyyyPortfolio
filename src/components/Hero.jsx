@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import profileImg from '../assets/profile.jpg';
+import vid2 from '../assets/IMG_8708.MOV';
+import vid3 from '../assets/IMG_8714.MOV';
+import vid4 from '../assets/IMG_8726.MOV';
+import vid5 from '../assets/2f7c3a8a-0af8-491e-b7b7-bbe6d4f17d21.MP4';
+import vid6 from '../assets/IMG_2804.mov';
+import vid7 from '../assets/IMG_2817.MOV';
+import vid8 from '../assets/IMG_3109.MOV';
+import vid9 from '../assets/IMG_3115.MOV';
+
+const VIDEOS = [vid2, vid3, vid4, vid5, vid6, vid7, vid8, vid9];
 
 const ROLES = [
   "iOS Developer",
@@ -13,6 +23,7 @@ const ROLES = [
 
 const Hero = () => {
   const [currentRole, setCurrentRole] = useState(0);
+  const [currentVideo, setCurrentVideo] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,13 +34,23 @@ const Hero = () => {
 
   return (
     <section className="hero">
+      <div className="hero-video-bg">
+        <video
+          key={currentVideo}
+          src={VIDEOS[currentVideo]}
+          autoPlay
+          muted
+          playsInline
+          onLoadedData={(e) => { e.target.playbackRate = 0.66; }}
+          onEnded={() => setCurrentVideo((prev) => (prev + 1) % VIDEOS.length)}
+          className="bg-video-element"
+        />
+        <div className="video-overlay" />
+      </div>
       <div className="container hero-container">
         
-        <div className="hero-content animate-fade-in">
-          <div className="hero-badge">
-            <span className="badge-dot"></span>
-            PORTFOLIO 2026
-          </div>
+        <div className="hero-parallax-wrapper">
+          <div className="hero-content animate-fade-in">
           <h1 className="hero-headline">
             Christian Gunawan. <br/>
             <span className="hero-subheadline">
@@ -54,11 +75,14 @@ const Hero = () => {
               Contact
             </a>
           </div>
+          </div>
         </div>
 
-        <div className="hero-visual animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <div className="hero-image-wrapper">
-            <img src={profileImg} alt="Christian Gunawan" className="hero-image" />
+        <div className="hero-parallax-wrapper">
+          <div className="hero-visual animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="hero-image-wrapper">
+              <img src={profileImg} alt="Christian Gunawan" className="hero-image" />
+            </div>
           </div>
         </div>
       </div>
@@ -70,6 +94,45 @@ const Hero = () => {
           display: flex;
           align-items: center;
           padding-top: var(--nav-height);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hero-video-bg {
+          position: absolute;
+          top: 120px;
+          left: 2%;
+          width: 96%;
+          height: calc(100% - 140px);
+          z-index: 0;
+          overflow: hidden;
+          border-radius: 32px;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .bg-video-element {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          animation: videoFadeIn 1.5s ease-in-out forwards;
+        }
+
+        @keyframes videoFadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+          z-index: 1;
         }
 
         .hero-container {
@@ -78,6 +141,7 @@ const Hero = () => {
           justify-content: space-between;
           align-items: center;
           gap: 2rem;
+          z-index: 2; /* Sit above the overlay layers initially */
         }
 
         .hero-content {

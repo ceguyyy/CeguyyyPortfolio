@@ -9,7 +9,8 @@
   --border-subtle: #27272a; /* zinc-800 */
   --glass-bg: rgba(24, 24, 27, 0.6); /* transparent zinc-900 */
   --glass-border: rgba(39, 39, 42, 0.8); /* zinc-800 */
-  --font-main: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-main: 'Space Mono', monospace;
+  --font-display: 'Funnel Display', sans-serif;
   --nav-height: 72px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -30,7 +31,7 @@ html {
   position: relative;
 }
 
-.app>*:not(.color-bends-container):not(.topnav) {
+.app>*:not(.color-bends-container):not(.topnav):not(.floating-audio-player):not(.back-to-top-btn):not(.whatsapp-widget-container) {
   position: relative;
   z-index: 1;
 }
@@ -74,6 +75,7 @@ h6 {
   line-height: 1.2;
   font-weight: 700;
   color: #fff;
+  font-family: var(--font-display);
 }
 
 h1 {

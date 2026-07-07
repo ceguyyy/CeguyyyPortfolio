@@ -1,0 +1,281 @@
+.doodle-section {
+    padding-top: 4rem;
+    padding-bottom: 8rem; /* Added generous space before the footer */
+    position: relative;
+    z-index: 2;
+}
+
+.doodle-section .container {
+    max-width: 1600px;
+    width: 95%;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.doodle-container {
+    background: rgba(20, 20, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.doodle-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: rgba(10, 10, 12, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar-group.ml-auto {
+    margin-left: auto;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 0.5rem;
+}
+
+.tool-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tool-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tool-btn:active {
+    transform: translateY(0);
+}
+
+.tool-btn.active {
+    background: rgba(79, 172, 254, 0.2);
+    border-color: rgba(79, 172, 254, 0.3);
+    color: #4facfe;
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.2);
+}
+
+.tool-btn.action-btn {
+    width: auto;
+    padding: 0 1.2rem;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tool-btn.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tool-btn.action-btn span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.color-picker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.color-picker:hover {
+    transform: scale(1.05);
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+}
+
+.brush-size-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0 1rem;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brush-preview {
+    border-radius: 50%;
+    min-width: 4px;
+    min-height: 4px;
+    transition: background-color 0.2s;
+}
+
+.size-slider {
+    width: 100px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+}
+
+.size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    transition: transform 0.1s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.size-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+}
+
+.canvas-wrapper {
+    width: 100%;
+    height: 500px;
+    background: #ffffff; /* Actual white canvas */
+    position: relative;
+    cursor: crosshair;
+}
+
+.doodle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none; /* Prevent scrolling while drawing on touch devices */
+}
+
+/* Custom cursors for tools */
+.cursor-eraser {
+    cursor: cell;
+}
+
+.cursor-bucket {
+    cursor: alias;
+}
+
+/* --- Text Editor Styles --- */
+.editor-wrapper {
+    background: #ffffff; /* White paper look */
+    padding: 2rem;
+    min-height: 800px;
+    height: auto;
+    position: relative;
+}
+
+.editor-wrapper::before {
+    content: 'Christian Gunawan';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-22.5deg);
+    font-family: 'Space Mono', monospace;
+    font-size: 80px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.rich-text-editor {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 800px;
+    outline: none;
+    color: #111;
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.rich-text-editor h1, 
+.rich-text-editor h2, 
+.rich-text-editor h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-family: 'Funnel Display', sans-serif;
+    color: #000;
+}
+
+.rich-text-editor p {
+    margin-bottom: 1rem;
+}
+
+.rich-text-editor ul, 
+.rich-text-editor ol {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .workspace-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .doodle-toolbar {
+        justify-content: center;
+        padding: 1rem;
+    }
+    .toolbar-group.ml-auto {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    .canvas-wrapper {
+        height: 400px;
+    }
+    .toolbar-divider {
+        display: none;
+    }
+}

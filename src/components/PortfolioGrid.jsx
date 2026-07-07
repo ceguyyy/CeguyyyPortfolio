@@ -7,7 +7,7 @@ import docMgmtImg from '../assets/document_management.png';
 import ebudgetingImg from '../assets/ebudgeting.png';
 import hseImg from '../assets/hse_management.png';
 import auditImg from '../assets/audit_system.png';
-import workflowImg from '../assets/workflow_integration.png';
+import workflowImg from '../assets/workflow_iso.png';
 import agenticAiImg from '../assets/agentic_ai.png';
 
 const projects = [
@@ -163,10 +163,16 @@ const projects = [
     }
 ];
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 const PortfolioGrid = ({ onProjectClick }) => {
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [isHovered, setIsHovered] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const carouselRef = useRef(null);
+    const progressBarRef = useRef(null);
+    const scrollPosRef = useRef(0);
     
     const categories = ['All', 'AI & Enterprise Solution', 'Enterprise Software', 'Logistics Platform', 'FinTech Solution', 'Mobile Analytics', 'Safety Management'];
 
@@ -174,48 +180,94 @@ const PortfolioGrid = ({ onProjectClick }) => {
         ? projects
         : projects.filter(p => p.category === selectedCategory);
 
+    useEffect(() => {
+        let animationId;
+        if (carouselRef.current) {
+            scrollPosRef.current = carouselRef.current.scrollLeft;
+        }
+        
+        const scroll = () => {
+            if (carouselRef.current && !isHovered && !isPaused && filteredProjects.length > 3) {
+                scrollPosRef.current += 0.5; // 50% slower speed
+                
+                const maxScroll = carouselRef.current.scrollWidth / 2;
+                if (scrollPosRef.current >= maxScroll) {
+                    scrollPosRef.current = 0;
+                }
+                
+                carouselRef.current.scrollLeft = scrollPosRef.current;
+                
+                if (progressBarRef.current) {
+                    const progress = (scrollPosRef.current / maxScroll) * 100;
+                    progressBarRef.current.style.width = `${progress}%`;
+                }
+            }
+            animationId = requestAnimationFrame(scroll);
+        };
+        animationId = requestAnimationFrame(scroll);
+        return () => cancelAnimationFrame(animationId);
+    }, [isHovered, isPaused, filteredProjects.length]);
+
+    const handleScroll = () => {
+        if (carouselRef.current) {
+            const currentScroll = carouselRef.current.scrollLeft;
+            // Only update internal ref if user manually scrolled (jump > 1.5px)
+            if (Math.abs(currentScroll - scrollPosRef.current) > 1.5) {
+                scrollPosRef.current = currentScroll;
+            }
+            if (progressBarRef.current && filteredProjects.length > 3) {
+                const maxScroll = carouselRef.current.scrollWidth / 2;
+                const progress = (currentScroll / maxScroll) * 100;
+                progressBarRef.current.style.width = `${Math.min(progress, 100)}%`;
+            }
+        }
+    };
+
+    const scrollByAmount = (amount) => {
+        if (carouselRef.current) {
+            // Temporarily flag as manual scroll so we don't fight the animation
+            carouselRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+    };
+
     return (
         <section id="work" className="section portfolio-section">
             <div className="container">
                 <div className="section-header">
-                    <h2 className="section-title">Selected Work.</h2>
-                    <p className="section-subtitle">A collection of project case studies, solution architectures, and digital transformations.</p>
-                </div>
-            </div>
-
-            <div className="filter-container">
-                <div className="filter-bar">
-                    {categories.map(cat => (
-                        <button
-                            key={cat}
-                            className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
-                            onClick={() => setSelectedCategory(cat)}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <div 
-                className="carousel-wrapper" 
-                style={{ overflowX: filteredProjects.length > 3 ? 'hidden' : 'auto' }}
-            >
-                <div className={`carousel-track ${filteredProjects.length > 3 ? 'animated' : 'static'}`}>
-                    <div className="carousel-group">
-                        {filteredProjects.map(p => (
-                            <div key={p.id} className="carousel-item">
-                                <Card 
-                                    {...p} 
-                                    onClick={() => onProjectClick(p)}
-                                />
-                            </div>
-                        ))}
+                    <div className="section-title-wrapper">
+                        <h2 className="section-title">Selected Work.</h2>
+                        <p className="section-subtitle">A collection of project case studies, solution architectures, and digital transformations.</p>
                     </div>
-                    {filteredProjects.length > 3 && (
-                        <div className="carousel-group" aria-hidden="true">
+                </div>
+            </div>
+
+            <div className="filter-section-wrapper">
+                <div className="filter-container">
+                        <div className="filter-bar">
+                            {categories.map(cat => (
+                                <button
+                                    key={cat}
+                                    className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
+                                    onClick={() => setSelectedCategory(cat)}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+            </div>
+
+            <div className="carousel-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                <div 
+                    className="carousel-wrapper" 
+                    ref={carouselRef}
+                    onScroll={handleScroll}
+                    style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}
+                >
+                    <div className="carousel-track">
+                        <div className="carousel-group">
                             {filteredProjects.map(p => (
-                                <div key={`${p.id}-dup`} className="carousel-item">
+                                <div key={p.id} className="carousel-item">
                                     <Card 
                                         {...p} 
                                         onClick={() => onProjectClick(p)}
@@ -223,8 +275,47 @@ const PortfolioGrid = ({ onProjectClick }) => {
                                 </div>
                             ))}
                         </div>
-                    )}
+                        {/* Duplicate group for infinite scrolling effect */}
+                        {filteredProjects.length > 3 && (
+                            <div className="carousel-group" aria-hidden="true">
+                                {filteredProjects.map(p => (
+                                    <div key={`${p.id}-dup`} className="carousel-item">
+                                        <Card 
+                                            {...p} 
+                                            onClick={() => onProjectClick(p)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
+            </div>
+
+            <div className="container">
+                {filteredProjects.length > 3 && (
+                    <div className="media-player-bar">
+                        <div className="media-nav-buttons">
+                            <button className="nav-chevron" onClick={() => scrollByAmount(-400)}>
+                                <ChevronLeft size={24} />
+                            </button>
+                            <button className="play-pause-btn" onClick={() => setIsPaused(!isPaused)} aria-label={isPaused ? "Play" : "Pause"}>
+                                {isPaused ? <Play size={18} fill="currentColor" /> : <Pause size={18} fill="currentColor" />}
+                            </button>
+                            <button className="nav-chevron" onClick={() => scrollByAmount(400)}>
+                                <ChevronRight size={24} />
+                            </button>
+                        </div>
+                        <div className="progress-container">
+                            <div className="progress-track">
+                                <div className="progress-fill" ref={progressBarRef}>
+                                    <div className="progress-knob"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="media-time">LIVE</div>
+                    </div>
+                )}
             </div>
 
             <style>{`
@@ -236,9 +327,10 @@ const PortfolioGrid = ({ onProjectClick }) => {
         .section-header {
           margin-bottom: 3rem;
           max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-          text-align: center;
+        }
+
+        .section-title-wrapper {
+          max-width: 600px;
         }
 
         .section-title {
@@ -255,22 +347,23 @@ const PortfolioGrid = ({ onProjectClick }) => {
           color: var(--text-secondary);
         }
 
-        .filter-container {
+        .filter-section-wrapper {
           display: flex;
-          width: 100%;
-          overflow-x: auto;
-          scrollbar-width: none;
+          justify-content: space-between;
+          align-items: center;
           margin-bottom: 40px;
-          -webkit-overflow-scrolling: touch;
-          padding: 0 24px;
-        }
-        
-        .filter-container::before,
-        .filter-container::after {
-          content: '';
-          flex: 1;
         }
 
+        .filter-container {
+          display: flex;
+          flex: 1;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+          padding-left: max(24px, calc((100vw - 1100px) / 2));
+          padding-right: max(24px, calc((100vw - 1100px) / 2));
+        }
+        
         .filter-container::-webkit-scrollbar {
           display: none;
         }
@@ -308,6 +401,113 @@ const PortfolioGrid = ({ onProjectClick }) => {
           box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
 
+        .carousel-container {
+          position: relative;
+          width: 100%;
+          display: flex;
+          align-items: center;
+        }
+
+        .media-player-bar {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          background: #1a1a1a;
+          border: 1px solid rgba(255,255,255,0.05);
+          padding: 12px 24px;
+          border-radius: 12px;
+          margin-top: 2rem;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .media-nav-buttons {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .nav-chevron {
+          background: transparent;
+          border: none;
+          color: rgba(255, 255, 255, 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          padding: 0;
+        }
+
+        .nav-chevron:hover {
+          color: white;
+          transform: scale(1.1);
+        }
+
+        .play-pause-btn {
+          background: #111;
+          border: 1px solid rgba(255,255,255,0.05);
+          box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
+          color: white;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: all 0.2s;
+        }
+
+        .play-pause-btn:hover {
+          background: #151515;
+          transform: scale(1.05);
+        }
+
+        .progress-container {
+          flex: 1;
+          display: flex;
+          align-items: center;
+        }
+
+        .progress-track {
+          width: 100%;
+          height: 8px;
+          background: #0a0a0a;
+          border-radius: 4px;
+          box-shadow: inset 0 1px 3px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.05);
+          position: relative;
+        }
+
+        .progress-fill {
+          height: 100%;
+          width: 0%;
+          background: #ffffff;
+          border-radius: 4px;
+          position: relative;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-knob {
+          width: 14px;
+          height: 14px;
+          background: linear-gradient(135deg, #e0e0e0, #888);
+          border-radius: 50%;
+          position: absolute;
+          right: -7px;
+          top: 50%;
+          transform: translateY(-50%);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .media-time {
+          color: #888;
+          font-family: var(--font-main);
+          font-size: 0.9rem;
+          font-weight: 600;
+          letter-spacing: 1px;
+        }
+
         .carousel-wrapper {
           width: 100%;
           position: relative;
@@ -323,17 +523,7 @@ const PortfolioGrid = ({ onProjectClick }) => {
         .carousel-track {
           display: flex;
           width: max-content;
-        }
-        
-        .carousel-track.animated {
-          animation: scroll 40s linear infinite;
-        }
-
-        .carousel-track.animated:hover {
-          animation-play-state: paused;
-        }
-        
-        .carousel-track.static {
+          gap: 2rem;
           padding-left: max(24px, calc((100vw - 1100px) / 2));
           padding-right: max(24px, calc((100vw - 1100px) / 2));
         }
@@ -342,19 +532,17 @@ const PortfolioGrid = ({ onProjectClick }) => {
           display: flex;
           gap: 2rem;
         }
-        
-        .carousel-track.animated .carousel-group {
-          padding-right: 2rem;
-        }
-
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
 
         .carousel-item {
           width: 400px;
           flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+          .filter-section-wrapper {
+            flex-direction: column;
+            align-items: flex-start;
+          }
         }
 
         @media (max-width: 640px) {
