@@ -325,6 +325,8 @@ const Experience = () => {
         @media (max-width: 1024px) {
           .history-body {
             flex-direction: column;
+            height: auto;
+            min-height: 800px;
           }
           
           .active-year-display {
@@ -359,6 +361,10 @@ const Experience = () => {
         @media (max-width: 768px) {
           .history-section {
             padding: 4rem 0;
+            overflow: visible;
+          }
+          .history-body {
+            height: auto;
           }
           .active-year-display {
             font-size: 4rem;
