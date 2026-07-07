@@ -501,11 +501,10 @@ const PortfolioGrid = ({ onProjectClick }) => {
         }
 
         .media-time {
-          color: #888;
-          font-family: var(--font-main);
-          font-size: 0.9rem;
-          font-weight: 600;
-          letter-spacing: 1px;
+          font-family: 'Space Mono', monospace;
+          color: rgba(255,255,255,0.4);
+          font-size: 0.85rem;
+          letter-spacing: 0.1em;
         }
 
         .carousel-wrapper {
@@ -543,18 +542,26 @@ const PortfolioGrid = ({ onProjectClick }) => {
             flex-direction: column;
             align-items: flex-start;
           }
+          .filter-container {
+            padding-left: 16px;
+            padding-right: 16px;
+            overflow: visible;
+          }
+          .filter-bar {
+            flex-wrap: wrap;
+            border-radius: 20px;
+            padding: 8px;
+            gap: 6px;
+          }
+          .filter-btn {
+            font-size: 0.85rem;
+            padding: 8px 16px;
+          }
         }
 
         @media (max-width: 640px) {
             .carousel-item {
                 min-width: 85vw;
-            }
-            .filter-bar {
-                gap: 8px;
-            }
-            .filter-btn {
-                font-size: 0.8rem;
-                padding: 6px 14px;
             }
         }
       `}</style>
