@@ -109,9 +109,6 @@ function App() {
       <RevealScroll><Education /></RevealScroll>
       <RevealScroll><Certificates /></RevealScroll>
       <RevealScroll><DoodleBoard /></RevealScroll>
-      <div className="container" style={{ margin: '4rem auto' }}>
-        <div className="elfsight-app-c85c0ff1-1439-4c21-b4a5-362efceee87b" data-elfsight-app-lazy></div>
-      </div>
       <Footer />
       {selectedProject && (
         <ProjectModal
