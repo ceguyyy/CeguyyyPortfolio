@@ -122,8 +122,8 @@ const DoodleBoard = () => {
     const getPos = (e) => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+        const clientY = (e.touches && e.touches.length > 0) ? e.touches[0].clientY : e.clientY;
         return {
             x: clientX - rect.left,
             y: clientY - rect.top
@@ -156,7 +156,9 @@ const DoodleBoard = () => {
     const draw = (e) => {
         if (!isDrawing || tool === 'bucket') return;
         
-        e.preventDefault(); // prevent scrolling on touch
+        if (e.cancelable) {
+            e.preventDefault(); // prevent scrolling on touch if possible
+        }
         const pos = getPos(e);
         const ctx = canvasRef.current.getContext('2d');
         

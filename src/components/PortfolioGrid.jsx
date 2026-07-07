@@ -561,7 +561,9 @@ const PortfolioGrid = ({ onProjectClick }) => {
 
         @media (max-width: 640px) {
             .carousel-item {
-                min-width: 85vw;
+                width: 80vw;
+                max-width: 320px;
+                min-width: auto;
             }
         }
       `}</style>
