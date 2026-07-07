@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, X } from 'lucide-react';
 import audioFile from '../assets/johnny joined, Lynxie - i still hear your voice [NCS Release] (1).mp3';
 
 const AudioPlayer = () => {
@@ -59,9 +59,18 @@ const AudioPlayer = () => {
             
             <div className={`audio-info ${showInfo ? 'show' : ''}`}>
                 <div className="audio-info-content">
-                    <a href="http://ncs.lnk.to/istillhearyourvoiceAT/youtube" target="_blank" rel="noopener noreferrer" className="audio-title">
-                        Song: Lynxie, johnny joined - i still hear your voice
-                    </a>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+                        <a href="http://ncs.lnk.to/istillhearyourvoiceAT/youtube" target="_blank" rel="noopener noreferrer" className="audio-title">
+                            Song: Lynxie, johnny joined - i still hear your voice
+                        </a>
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); setShowInfo(false); }}
+                            style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', padding: '0', display: 'flex' }}
+                            aria-label="Close"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
                     <p>Music provided by NoCopyrightSounds</p>
                     <div className="audio-links">
                         <a href="http://ncs.io/istillhearyourvoice" target="_blank" rel="noopener noreferrer">Download/Stream</a>

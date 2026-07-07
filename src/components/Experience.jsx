@@ -355,6 +355,37 @@ const Experience = () => {
             margin-top: 0;
           }
         }
+
+        @media (max-width: 768px) {
+          .history-section {
+            padding: 4rem 0;
+          }
+          .active-year-display {
+            font-size: 4rem;
+            padding: 0 0 1.5rem 0;
+          }
+          .track-company {
+            font-size: 1.5rem;
+          }
+          .track-image-wrapper {
+            height: 140px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+          }
+          .track-role {
+            font-size: 1.2rem;
+          }
+          .track-desc {
+            font-size: 0.9rem;
+            max-width: 100%;
+          }
+          .history-header {
+             margin-bottom: 2rem;
+             flex-direction: column;
+             align-items: flex-start;
+             gap: 1.5rem;
+          }
+        }
       `}</style>
     </section>
   );
