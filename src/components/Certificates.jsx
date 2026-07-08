@@ -21,6 +21,11 @@ const Certificates = () => {
             title: 'Apple Developer Academy',
             issuer: 'Apple',
             link: 'https://media.licdn.com/dms/image/v2/D562DAQGgEDYfLszSyQ/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1738846013068?e=1766134800&v=beta&t=0by-uXdILmmjktJeDgvRskcFEhBvKIs1jvdtNEFs2mY'
+        },
+        {
+            title: 'Becoming a Trusted Enterprise Consultant',
+            issuer: 'Dale Carnegie Training',
+            link: '/dale-carnegie-certificate.jpg'
         }
     ];
 

@@ -139,10 +139,6 @@ const AudioPlayer = () => {
                     border-color: rgba(255, 255, 255, 0.4);
                 }
                 
-                .audio-btn.playing {
-                    animation: pulseGlow 2.5s infinite;
-                }
-
                 .play-icon {
                     margin-left: 3px; /* visual center for play button */
                 }
@@ -274,12 +270,6 @@ const AudioPlayer = () => {
 
                 .volume-slider::-webkit-slider-thumb:hover {
                     transform: scale(1.3);
-                }
-
-                @keyframes pulseGlow {
-                    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.15); }
-                    70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-                    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
                 }
                 
                 @media (max-width: 768px) {

@@ -9,8 +9,24 @@ import hseImg from '../assets/hse_management.png';
 import auditImg from '../assets/audit_system.png';
 import workflowImg from '../assets/workflow_iso.png';
 import agenticAiImg from '../assets/agentic_ai.png';
+import wacommerceImg from '../assets/wacommerce_isometric.png';
 
 const projects = [
+    {
+        id: 'wacommerce',
+        title: 'WAcommerce',
+        category: 'AI & Enterprise Solution',
+        description: 'Customer purchasing platform via WhatsApp with open API integration for product and stock gathering.',
+        image: wacommerceImg,
+        techStack: ['Node.js', 'WhatsApp Business API', 'React', 'Open API'],
+        details: [
+            'Built a complete e-commerce checkout flow natively within WhatsApp conversations.',
+            'Integrated open APIs to dynamically gather real-time stock and product catalogs from external applications.',
+            'Automated order processing and payment confirmations seamlessly.'
+        ],
+        link: '#',
+        linkLabel: 'View Case Study'
+    },
     {
         id: 0,
         title: 'Agentic AI Agent & CRM',
@@ -485,7 +501,6 @@ const PortfolioGrid = ({ onProjectClick }) => {
           background: #ffffff;
           border-radius: 4px;
           position: relative;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .progress-knob {
